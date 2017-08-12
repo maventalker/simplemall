@@ -15,5 +15,6 @@
 	<modules>
 		<module>base-serv</module>
 		<module>account-sevice</module>
+		<module>product-service</module>
 	</modules>
 </project>
