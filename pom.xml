@@ -19,5 +19,6 @@
 		<module>order-service</module>
 		<module>payment-service</module>
 		<module>msg-service</module>
+		<module>front-app</module>
 	</modules>
 </project>
