@@ -14,5 +14,6 @@
 	</parent>
 	<modules>
 		<module>base-serv</module>
+		<module>account-sevice</module>
 	</modules>
 </project>
