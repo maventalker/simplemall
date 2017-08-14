@@ -8,7 +8,7 @@ import com.simplemall.micro.serv.prd.service.IPrdService;
 public class PrdServiceImpl implements IPrdService {
 
 	@Override
-	public String getProductById() {
+	public String getProductById(String prdId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
