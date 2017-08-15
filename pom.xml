@@ -16,5 +16,10 @@
 		<module>base-serv</module>
 		<module>account-sevice</module>
 		<module>product-service</module>
+		<module>order-service</module>
+		<module>payment-service</module>
+		<module>msg-service</module>
+		<module>front-app</module>
+		<module>common-module</module>
 	</modules>
 </project>

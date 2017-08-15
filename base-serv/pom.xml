@@ -12,5 +12,7 @@
   	<module>eureka-server</module>
   	<module>conf-server</module>
   	<module>zuul-server</module>
+  	<module>sleuth-server</module>
+  	<module>admin-server</module>
   </modules>
 </project>
