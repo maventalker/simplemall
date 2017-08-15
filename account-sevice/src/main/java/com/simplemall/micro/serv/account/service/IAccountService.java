@@ -2,9 +2,19 @@ package com.simplemall.micro.serv.account.service;
 
 public interface IAccountService {
 
-	String login();
+	/**
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	String login(String phone, String password);
 	
-	String signup();
+	/**
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	String signup(String phone, String password);
 	
 	String getAccAddress();
 }
