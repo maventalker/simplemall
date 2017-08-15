@@ -1,4 +1,6 @@
-package com.simplemall.micro.serv.common.config;
+package com.simplemall.micro.serv.account.config;
+
+import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -13,7 +15,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import javax.sql.DataSource;
+import com.simplemall.micro.serv.common.config.DataSourceProperties;
 
 @Configuration
 @EnableTransactionManagement

@@ -127,6 +127,11 @@
 			<artifactId>druid-spring-boot-starter</artifactId>
 			<version>1.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.simplemall.micro.serv.common</groupId>
+			<artifactId>common-module</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
