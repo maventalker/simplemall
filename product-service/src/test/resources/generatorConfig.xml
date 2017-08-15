@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- jdbc路径 -->
+	<classPathEntry
+			location="C:\dev\Reporsitory\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" />
+	<context id="context" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		<commentGenerator
+			type="org.mybatis.generator.internal.CustomeCommentGenerator">
+			<property name="javaFileEncoding" value="UTF-8" />
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="false" />
+			<property name="suppressDate" value="false" />
+		</commentGenerator>
+
+		<!-- 请填写connectionURL、userId、password -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/micro_product" userId="root"
+			password="root" />
+
+		<!-- 生成持久化对象 -->
+		<javaModelGenerator targetPackage="bean"
+			targetProject="src/test/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- 生成mapper.xml文件 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/test/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 生成Mapper接口 -->
+		<javaClientGenerator targetPackage="bean.mapper"
+			targetProject="src/test/java" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+
+		<!-- 需要生成的数据库表 -->
+		<table tableName="tb_prd_extend" domainObjectName="PrdExtend">
+			<generatedKey column="tid" sqlStatement=" select replace(uuid(),'-','')" />
+		</table>
+
+		<table tableName="tb_prd_info" domainObjectName="PrdInfo">
+			<generatedKey column="tid" sqlStatement=" select replace(uuid(),'-','')" />
+		</table>
+	</context>
+</generatorConfiguration>
