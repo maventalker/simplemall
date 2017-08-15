@@ -1,37 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE generatorConfiguration
-        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-    <properties resource="application.properties"/>
+	<!-- jdbc路径 -->
+	<classPathEntry
+			location="C:\dev\Reporsitory\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" />
+	<context id="context" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		<commentGenerator
+			type="org.mybatis.generator.internal.CustomeCommentGenerator">
+			<property name="javaFileEncoding" value="UTF-8" />
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="false" />
+			<property name="suppressDate" value="false" />
+		</commentGenerator>
 
-    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
-        <property name="beginningDelimiter" value="`"/>
-        <property name="endingDelimiter" value="`"/>
+		<!-- 请填写connectionURL、userId、password -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/micro_msg" userId="root"
+			password="root" />
 
-        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="tk.mybatis.springboot.util.MyMapper"/>
-        </plugin>
+		<!-- 生成持久化对象 -->
+		<javaModelGenerator targetPackage="bean"
+			targetProject="src/test/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
 
-        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
-                        connectionURL="${spring.datasource.url}"
-                        userId="${spring.datasource.username}"
-                        password="${spring.datasource.password}">
-        </jdbcConnection>
+		<!-- 生成mapper.xml文件 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/test/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
 
-        <javaModelGenerator targetPackage="tk.mybatis.springboot.model" targetProject="src/main/java"/>
+		<!-- 生成Mapper接口 -->
+		<javaClientGenerator targetPackage="bean.mapper"
+			targetProject="src/test/java" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
 
-        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
 
-        <javaClientGenerator targetPackage="tk.mybatis.springboot.mapper" targetProject="src/main/java"
-                             type="XMLMAPPER"/>
+		<!-- 需要生成的数据库表 -->
+		<table tableName="tb_msg_notice" domainObjectName="MsgNotice">
+			<generatedKey column="tid" sqlStatement=" select replace(uuid(),'-','')" />
+		</table>
 
-        <table tableName="%">
-            <!--mysql 配置-->
-            <generatedKey column="tid" sqlStatement="Mysql" identity="true"/>
-            <!--oracle 配置-->
-            <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
-        </table>
-    </context>
+	</context>
 </generatorConfiguration>
