@@ -1,7 +1,5 @@
 package com.simplemall.pay.service;
 
-import java.math.BigDecimal;
-
 public interface IPayService {
 
 	/**
@@ -10,5 +8,5 @@ public interface IPayService {
 	 * @param price
 	 * @return
 	 */
-	int pay(String serialNo,String payType,BigDecimal price);
+	int pay(String serialNo,String payType,String status);
 }
