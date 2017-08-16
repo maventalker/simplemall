@@ -28,4 +28,5 @@ public interface AccountFeignClient {
 	 */
 	@RequestMapping("/signup")
 	public RestAPIResult<String> signup(@RequestParam("phone") String phone, @RequestParam("password") String password);
+
 }
