@@ -44,10 +44,6 @@
 
 
 		<!-- 需要生成的数据库表 -->
-		<table tableName="tb_acc_account" domainObjectName="Account">
-			<generatedKey column="tid" sqlStatement=" select replace(uuid(),'-','')" />
-		</table>
-
 		<table tableName="tb_acc_address" domainObjectName="AccAddress">
 			<generatedKey column="tid" sqlStatement=" select replace(uuid(),'-','')" />
 		</table>

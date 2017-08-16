@@ -1,30 +1,41 @@
 package com.simplemall.account.test;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.simplemall.account.controller.AccountController;
+import com.simplemall.account.AccountServApplication;
+import com.simplemall.account.bean.Account;
+import com.simplemall.account.dal.AccountMapper;
+import com.simplemall.account.service.IAccountService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = MockServletContext.class)
+@SpringBootTest(classes = AccountServApplication.class)
 public class AccountControllerTest {
 
-	private MockMvc mvc;
-	
+	@Autowired
+	private IAccountService accountService;
+
+	@Autowired
+	AccountMapper accountMapper;
 	@Before
 	public void setUp() throws Exception {
-		mvc = MockMvcBuilders.standaloneSetup(new AccountController()).build();
 	}
 
 	@Test
-	public void test(){
-		
+	public void test() {
+		String phone = "14534343434";
+		String password = "23123123";
+		Account account = new Account();
+		account.setPhone(phone);
+		account.setPassword(password);
+		int apiResult = accountMapper.insertSelective(account);
+		Assert.assertTrue(apiResult>0);
 	}
 }

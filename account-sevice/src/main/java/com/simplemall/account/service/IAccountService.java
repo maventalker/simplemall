@@ -1,5 +1,9 @@
 package com.simplemall.account.service;
 
+import java.util.List;
+
+import com.simplemall.account.bean.AccAddress;
+
 public interface IAccountService {
 
 	/**
@@ -7,14 +11,24 @@ public interface IAccountService {
 	 * @param password
 	 * @return
 	 */
-	String login(String phone, String password);
+	boolean login(String phone, String password);
 	
 	/**
 	 * @param phone
 	 * @param password
 	 * @return
 	 */
-	String signup(String phone, String password);
+	boolean signup(String phone, String password);
 	
-	String getAccAddress();
+	/**
+	 * @param tid
+	 * @return
+	 */
+	AccAddress getAccAddress(String tid);
+	
+	/**
+	 * @param accountId
+	 * @return
+	 */
+	List<AccAddress> getAddressList(String accountId);
 }

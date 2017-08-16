@@ -11,6 +11,13 @@ public class AccAddress {
     private String tid;
 
     /**
+     * 账户
+     * 表 : tb_acc_address
+     * 对应字段 : account_id
+     */
+    private String accountId;
+
+    /**
      * 姓名
      * 表 : tb_acc_address
      * 对应字段 : real_name
@@ -96,6 +103,24 @@ public class AccAddress {
      */
     public void setTid(String tid) {
         this.tid = tid == null ? null : tid.trim();
+    }
+
+    /**
+     * get method 
+     *
+     * @return tb_acc_address.account_id：账户
+     */
+    public String getAccountId() {
+        return accountId;
+    }
+
+    /**
+     * set method 
+     *
+     * @param accountId  账户
+     */
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     /**
