@@ -40,6 +40,13 @@ public class OrderInfo {
     private String payStatus;
 
     /**
+     * 账户
+     * 表 : tb_ord_inf
+     * 对应字段 : shipping_account
+     */
+    private String shippingAccount;
+
+    /**
      * 收货人
      * 表 : tb_ord_inf
      * 对应字段 : shipping_name
@@ -218,6 +225,24 @@ public class OrderInfo {
      */
     public void setPayStatus(String payStatus) {
         this.payStatus = payStatus == null ? null : payStatus.trim();
+    }
+
+    /**
+     * get method 
+     *
+     * @return tb_ord_inf.shipping_account：账户
+     */
+    public String getShippingAccount() {
+        return shippingAccount;
+    }
+
+    /**
+     * set method 
+     *
+     * @param shippingAccount  账户
+     */
+    public void setShippingAccount(String shippingAccount) {
+        this.shippingAccount = shippingAccount == null ? null : shippingAccount.trim();
     }
 
     /**
