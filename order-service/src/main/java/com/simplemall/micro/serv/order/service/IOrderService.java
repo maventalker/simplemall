@@ -2,9 +2,9 @@ package com.simplemall.micro.serv.order.service;
 
 public interface IOrderService {
 
-	boolean createOrder();
+	boolean create();
 	
-	String viewOrder(String serialNo,String accountId);
+	String view(String serialNo,String accountId);
 	
 	boolean changeOrderState(String serialNo,String state);
 }

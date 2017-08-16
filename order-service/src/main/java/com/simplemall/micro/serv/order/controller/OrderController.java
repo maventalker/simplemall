@@ -15,12 +15,10 @@ public class OrderController {
 	
 	@RequestMapping(value = "create")
 	public void createOrder(){
-		orderService.createOrder();
 	}
 	
 	@RequestMapping(value = "view")
 	public void viewOrder(String serialNo,String accountId){
-		orderService.viewOrder(serialNo, accountId);
 	}
 	
 	@RequestMapping(value = "state/change")

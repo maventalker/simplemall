@@ -1,4 +1,4 @@
-package com.simplemall.micro.serv.order.config;
+package com.simplemall.pay.config;
 
 import javax.sql.DataSource;
 
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.simplemall.micro.serv.order.mapper")
+@MapperScan("com.simplemall.order.mapper")
 public class SqlSessionFactoryConfig implements TransactionManagementConfigurer {
 
     @Autowired

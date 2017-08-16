@@ -8,13 +8,13 @@ import com.simplemall.micro.serv.order.service.IOrderService;
 public class OrderServiceImpl implements IOrderService {
 
 	@Override
-	public boolean createOrder() {
+	public boolean create() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String viewOrder(String serialNo, String accountId) {
+	public String view(String serialNo, String accountId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

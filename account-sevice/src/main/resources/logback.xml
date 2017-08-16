@@ -53,7 +53,7 @@
     </appender>
 
     <!-- 日志输出级别   这样设置不打印日志 -->
-    <root level="INFO">
+    <root level="DEBUG">
        <!--   <appender-ref ref="STDOUT" />  -->
         <appender-ref ref="INFO_FILE" />
         <appender-ref ref="ERROR_FILE" />

@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.simplemall.micro.serv.prd.service.IPrdService;
 
 @RestController
-@RequestMapping("prd")
+@RequestMapping("/prd")
 public class PorudctController {
 
 	@Autowired
 	IPrdService prdService;
 	
-	@RequestMapping(value = "/${prdId}")
+	@RequestMapping(value = "{tid}")
 	public void getPorudctById(String prdId){
 		prdService.getProductById(prdId);
 	}

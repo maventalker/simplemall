@@ -5,7 +5,7 @@
     <include resource="org/springframework/boot/logging/logback/base.xml" />
 	<jmxConfigurator/>
     <!--定义日志文件的存储地址和前缀名-->
-    <property name="LOG_HOME" value="F:/logs" />
+    <property name="LOG_HOME" value="c:/dev/log4jlogs" />
     <property name="LOG_PREFIX" value="micro-eureka-server" />
 
     <!-- 一般信息按照每天生成日志文件 -->
