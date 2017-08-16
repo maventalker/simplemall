@@ -1,4 +1,4 @@
-package com.simplemall.micro.serv.common.config;
+package com.simplemall.micro.serv.msg.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.slf4j.Logger;

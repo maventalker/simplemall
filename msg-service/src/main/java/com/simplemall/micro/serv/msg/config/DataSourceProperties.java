@@ -1,4 +1,4 @@
-package com.simplemall.micro.serv.common.config;
+package com.simplemall.micro.serv.msg.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = DataSourceProperties.DS, ignoreUnknownFields = false)
 public class DataSourceProperties {
-	final static String DS = "mysqldb.datasource";
+	final static String DS = "spring.datasource";
 
 	private String url;
 	private String username;
