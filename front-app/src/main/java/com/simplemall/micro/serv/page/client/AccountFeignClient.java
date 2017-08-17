@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simplemall.micro.serv.common.bean.RestAPIResult;
 
-@FeignClient(name = "account-service")
+@FeignClient(name = "ACCOUNT-SERVICE")
 public interface AccountFeignClient {
 
 	/**
@@ -16,7 +16,7 @@ public interface AccountFeignClient {
 	 * @param password
 	 * @return
 	 */
-	@RequestMapping("/login")
+	@RequestMapping("/acc/login")
 	public RestAPIResult<String> login(@RequestParam("phone") String phone, @RequestParam("password") String password);
 
 	/**
@@ -26,7 +26,7 @@ public interface AccountFeignClient {
 	 * @param password
 	 * @return
 	 */
-	@RequestMapping("/signup")
+	@RequestMapping("/acc/signup")
 	public RestAPIResult<String> signup(@RequestParam("phone") String phone, @RequestParam("password") String password);
 
 }

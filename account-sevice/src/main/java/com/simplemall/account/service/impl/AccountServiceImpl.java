@@ -3,6 +3,8 @@ package com.simplemall.account.service.impl;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import com.simplemall.account.service.IAccountService;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
+	
+	private Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
 	@Autowired
 	AccountMapper accountMapper;
@@ -33,6 +37,7 @@ public class AccountServiceImpl implements IAccountService {
 		AccountCriteria criteria = new AccountCriteria();
 		criteria.createCriteria().andPhoneEqualTo(phone).andPasswordEqualTo(password);
 		List<Account> list = accountMapper.selectByExample(criteria);
+		logger.info("{}登陆成功!",phone);
 		return CollectionUtils.isNotEmpty(list);
 	}
 
@@ -42,6 +47,7 @@ public class AccountServiceImpl implements IAccountService {
 		account.setPhone(phone);
 		account.setPassword(password);
 		int result = accountMapper.insertSelective(account);
+		logger.info("{}注册成功！",phone);
 		return result > 0 ? true : false;
 	}
 

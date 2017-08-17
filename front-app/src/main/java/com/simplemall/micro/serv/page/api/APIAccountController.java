@@ -15,21 +15,40 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+/**
+ * 采用feign客户端调用服务
+ * 
+ * @author guooo
+ *
+ */
 @RestController
-@RequestMapping("/mcs/acc")
-@Api(value = "account rest api", tags = "用户接口")
+@RequestMapping("/acc")
+ @Api(value = "account rest api", tags = "用户接口")
 public class APIAccountController {
 
 	private Logger logger = LoggerFactory.getLogger(APIAccountController.class);
 
 	@Autowired
-	AccountFeignClient feignClient;
+	private AccountFeignClient accountFeignClient;
 
-	@ApiOperation(value = "account login", notes = "")
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	 @ApiOperation(value = "account login", notes = "")
+	@RequestMapping(value = "login", method = { RequestMethod.POST, RequestMethod.GET })
 	public RestAPIResult<String> login(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
 			@ApiParam(value = "密码") @RequestParam(required = true) String password) {
-		RestAPIResult<String> restAPIResult = feignClient.login(phone, password);
+		RestAPIResult<String> restAPIResult = accountFeignClient.login(phone, password);
+		logger.info("login result = {}", restAPIResult.getRespData());
+		return restAPIResult;
+	}
+
+	/**
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping(value = "signup", method = { RequestMethod.POST, RequestMethod.GET })
+	public RestAPIResult<String> signup(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
+			@ApiParam(value = "密码") @RequestParam(required = true) String password) {
+		RestAPIResult<String> restAPIResult = accountFeignClient.signup(phone, password);
 		logger.info("login result = {}", restAPIResult.getRespData());
 		return restAPIResult;
 	}

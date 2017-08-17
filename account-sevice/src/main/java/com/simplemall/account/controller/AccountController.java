@@ -30,7 +30,7 @@ public class AccountController {
 	 * @param password
 	 * @return
 	 */
-	@RequestMapping(value = "login", method = RequestMethod.GET)
+	@RequestMapping(value = "login", method = {RequestMethod.GET,RequestMethod.POST})
 	public RestAPIResult<String> login(@RequestParam("phone") String phone, @RequestParam("password") String password) {
 		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
 		boolean result = accountService.login(phone, password);
