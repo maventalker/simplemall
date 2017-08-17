@@ -1,4 +1,4 @@
-package com.simplemall.micro.serv.page;
+/*package com.simplemall.micro.serv.page;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +12,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-/**
+*//**
  * swagger2 configuration
  * 
  * @author guooo
  *
- */
+ *//*
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
@@ -36,3 +36,4 @@ public class Swagger2Config {
 				.version("V1.0").build();
 	}
 }
+*/
