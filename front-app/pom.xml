@@ -84,22 +84,26 @@
 			<artifactId>jackson-module-parameter-names</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>2.2.2</version>
+			<version>2.6.1</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.2.2</version>
+			<version>2.6.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.simplemall.micro.serv.common</groupId>
 			<artifactId>common-module</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-<!-- client request framework -->
+		<!-- client request framework -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
