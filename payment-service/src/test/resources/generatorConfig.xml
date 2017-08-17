@@ -20,7 +20,7 @@
 
 		<!-- 请填写connectionURL、userId、password -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/micro_msg" userId="root"
+			connectionURL="jdbc:mysql://localhost:3306/micro_order" userId="root"
 			password="root" />
 
 		<!-- 生成持久化对象 -->
@@ -44,7 +44,7 @@
 
 
 		<!-- 需要生成的数据库表 -->
-		<table tableName="tb_msg_notice" domainObjectName="MsgNotice">
+		<table tableName="tb_ord_inf" domainObjectName="OrderInfo">
 			<generatedKey column="tid" sqlStatement=" select replace(uuid(),'-','')" />
 		</table>
 

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.simplemall.order.mapper")
+@MapperScan("com.simplemall.pay.dal")
 public class SqlSessionFactoryConfig implements TransactionManagementConfigurer {
 
     @Autowired
