@@ -29,4 +29,12 @@ public interface AccountFeignClient {
 	@RequestMapping("/acc/signup")
 	public RestAPIResult<String> signup(@RequestParam("phone") String phone, @RequestParam("password") String password);
 
+	/**
+	 * get address list
+	 * 
+	 * @param accountTid
+	 * @return
+	 */
+	@RequestMapping("/address/list/{accountTid}")
+	public String getList(String accountTid);
 }

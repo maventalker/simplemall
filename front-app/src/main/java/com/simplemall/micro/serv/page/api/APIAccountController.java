@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.page.client.AccountFeignClient;
@@ -23,7 +24,7 @@ import io.swagger.annotations.ApiParam;
  */
 @RestController
 @RequestMapping("/acc")
- @Api(value = "account rest api", tags = "用户接口")
+@Api(value = "account rest api", tags = "用户接口")
 public class APIAccountController {
 
 	private Logger logger = LoggerFactory.getLogger(APIAccountController.class);
@@ -31,7 +32,10 @@ public class APIAccountController {
 	@Autowired
 	private AccountFeignClient accountFeignClient;
 
-	 @ApiOperation(value = "account login", notes = "")
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@ApiOperation(value = "account login", notes = "")
 	@RequestMapping(value = "login", method = { RequestMethod.POST, RequestMethod.GET })
 	public RestAPIResult<String> login(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
 			@ApiParam(value = "密码") @RequestParam(required = true) String password) {
@@ -51,5 +55,19 @@ public class APIAccountController {
 		RestAPIResult<String> restAPIResult = accountFeignClient.signup(phone, password);
 		logger.info("login result = {}", restAPIResult.getRespData());
 		return restAPIResult;
+	}
+
+	/**
+	 * query account's address list
+	 * 
+	 * @param accountTid
+	 * @return
+	 */
+	@RequestMapping(value = "address/list/{accountTid}", method = RequestMethod.POST)
+	public RestAPIResult<String> queryAccAddress(String accountTid) {
+		RestAPIResult<String> apiResult = new RestAPIResult<>();
+		String liString = accountFeignClient.getList(accountTid);
+		apiResult.setRespData(liString);
+		return apiResult;
 	}
 }
