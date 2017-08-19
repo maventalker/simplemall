@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.simplemall.account.bean.AccAddress;
-import com.simplemall.account.bean.AccAddressCriteria;
+import com.simplemall.micro.serv.common.bean.account.AccAddress;
+import com.simplemall.micro.serv.common.bean.account.AccAddressCriteria;
 
 public interface AccAddressMapper {
     /**

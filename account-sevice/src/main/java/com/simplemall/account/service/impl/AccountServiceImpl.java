@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.simplemall.account.bean.AccAddress;
-import com.simplemall.account.bean.AccAddressCriteria;
-import com.simplemall.account.bean.Account;
-import com.simplemall.account.bean.AccountCriteria;
 import com.simplemall.account.dal.AccAddressMapper;
 import com.simplemall.account.dal.AccountMapper;
 import com.simplemall.account.service.IAccountService;
+import com.simplemall.micro.serv.common.bean.account.AccAddress;
+import com.simplemall.micro.serv.common.bean.account.AccAddressCriteria;
+import com.simplemall.micro.serv.common.bean.account.Account;
+import com.simplemall.micro.serv.common.bean.account.AccountCriteria;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
@@ -46,6 +46,13 @@ public class AccountServiceImpl implements IAccountService {
 		Account account = new Account();
 		account.setPhone(phone);
 		account.setPassword(password);
+		AccountCriteria example = new AccountCriteria();
+		example.createCriteria().andPhoneEqualTo(phone);
+		List<Account> list = accountMapper.selectByExample(example);
+		if (CollectionUtils.isNotEmpty(list)) {
+			logger.warn("{}-用户已存在，请选择其它用户名!",phone);
+			return false;
+		}
 		int result = accountMapper.insertSelective(account);
 		logger.info("{}注册成功！",phone);
 		return result > 0 ? true : false;
