@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.simplemall.micro.serv.prd.bean.PrdExtend;
-import com.simplemall.micro.serv.prd.bean.PrdExtendCriteria;
+import com.simplemall.micro.serv.common.bean.product.PrdExtend;
+import com.simplemall.micro.serv.common.bean.product.PrdExtendCriteria;
 
 public interface PrdExtendMapper {
     /**

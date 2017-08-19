@@ -1,6 +1,6 @@
 package com.simplemall.micro.serv.prd.service;
 
-import com.simplemall.micro.serv.prd.bean.PrdInfo;
+import com.simplemall.micro.serv.common.bean.product.PrdInfo;
 
 public interface IPrdService {
 
