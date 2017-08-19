@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.simplemall.micro.serv.common.bean.order.OrderDTO;
@@ -15,6 +18,7 @@ import com.simplemall.micro.serv.common.bean.order.OrderProduct;
 import com.simplemall.micro.serv.common.bean.order.OrderProductCriteria;
 import com.simplemall.micro.serv.common.bean.order.OrderState;
 import com.simplemall.micro.serv.common.bean.order.OrderStateCriteria;
+import com.simplemall.micro.serv.common.constant.SystemConstants;
 import com.simplemall.micro.serv.common.util.SnowflakeIdWorker;
 import com.simplemall.micro.serv.order.mapper.OrderInfoMapper;
 import com.simplemall.micro.serv.order.mapper.OrderProductMapper;
@@ -37,6 +41,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	//FIXME 增加事务支持
+	@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
 	public boolean create(String orderJsonStr) {
 		JSONObject jsonObject = null;
 		try {
@@ -48,17 +53,17 @@ public class OrderServiceImpl implements IOrderService {
 		OrderDTO orderDTO = JSONObject.toJavaObject(jsonObject, OrderDTO.class);
 		long serialNo = SnowflakeIdWorker.generateSerialNos();
 		orderDTO.getBaseInfo().setSerialNo(String.valueOf(serialNo));
-		orderDTO.getBaseInfo().setStatus("");
+		orderDTO.getBaseInfo().setStatus(SystemConstants.STATE.CREATE);
 		try {
 			orderInfoMapper.insertSelective(orderDTO.getBaseInfo());
 			// 服务测试时，只支持一个商品的订单
 			List<OrderProduct> orderProducts = orderDTO.getProducts();
 			for (OrderProduct orderProduct : orderProducts) {
-				orderProduct.setSerialNo(String.valueOf(serialNo));
+				orderProduct.setSerialNo(orderDTO.getBaseInfo().getTid());
 			}
 			orderProductMapper.insertSelective(orderDTO.getProducts().get(0));
 			OrderState state = new OrderState();
-			state.setSerialNo(String.valueOf(serialNo));
+			state.setSerialNo(orderDTO.getBaseInfo().getTid());
 			state.setStatus("创建订单");
 			orderStateMapper.insertSelective(state);
 			logger.info("订单创建成功，订单号是{}", serialNo);
