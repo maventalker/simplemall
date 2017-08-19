@@ -1,5 +1,7 @@
 package com.simplemall.pay.service.impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,11 @@ public class PayServiceImpl implements IPayService {
 	PayRecordMapper recordMapper;
 	
 	@Override
-	public int pay(String serialNo, String payType, String status) {
+	public int pay(String serialNo, String payType,BigDecimal price) {
 		PayRecord record = new PayRecord();
 		record.setSerialNo(serialNo);
 		record.setType(payType);
-		record.setStatus(status);
+		//Fixme 订单金额需要知会支付方
 		return recordMapper.insertSelective(record);
 	}
 

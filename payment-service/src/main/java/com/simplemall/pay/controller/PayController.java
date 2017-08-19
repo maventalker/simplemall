@@ -8,28 +8,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.pay.service.IPayService;
 
 @RestController
-@RequestMapping("/payController")
+@RequestMapping("/payment")
 public class PayController {
 
 	@Autowired
 	IPayService payService;
-	
+
 	/**
-	 * pay 
+	 * pay
 	 * 
 	 * @param serialNo
 	 * @param payType
 	 * @return
 	 */
-	@RequestMapping(value = "/pay",method = RequestMethod.POST)
-	public RestAPIResult<Integer> pay(@RequestParam("serialNo") String serialNo,@RequestParam("payType") String payType,@RequestParam("status") String status){
-		int result = payService.pay(serialNo, payType, status);
-		RestAPIResult<Integer> apiResult = new RestAPIResult<Integer>();
-		apiResult.setRespData(result);
-		return apiResult;
+	@RequestMapping(value = "/pay", method = RequestMethod.POST)
+	public Integer pay(@RequestParam("serialNo") String serialNo, @RequestParam("payType") String payType,
+			@RequestParam("price") BigDecimal price) {
+		int result = payService.pay(serialNo, payType, price);
+		return result;
 	}
 }
