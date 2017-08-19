@@ -48,7 +48,7 @@ public class OrderController {
 	}
 
 	/**
-	 * 状态变更
+	 * 状态变更，主要供后台人员使用便于前端消费者跟踪订单状况
 	 * 
 	 * @param serialNo
 	 * @param state

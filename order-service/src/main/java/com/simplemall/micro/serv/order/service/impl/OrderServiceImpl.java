@@ -40,8 +40,8 @@ public class OrderServiceImpl implements IOrderService {
 	OrderStateMapper orderStateMapper;
 
 	@Override
-	//FIXME 增加事务支持
-	@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+	// FIXME 增加事务支持
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
 	public boolean create(String orderJsonStr) {
 		JSONObject jsonObject = null;
 		try {
@@ -99,8 +99,13 @@ public class OrderServiceImpl implements IOrderService {
 		orderState.setSerialNo(tid);
 		orderState.setStatus(state);
 		int result = orderStateMapper.insertSelective(orderState);
+
+		OrderInfo info = new OrderInfo();
+		info.setTid(tid);
+		info.setStatus(state);
+		int updateResult = orderInfoMapper.updateByPrimaryKeySelective(info);
 		logger.info("{}订单状态变更，当前状态{}.", tid, state);
-		return result > 0 ? true : false;
+		return result + updateResult > 1 ? true : false;
 	}
 
 }
