@@ -36,6 +36,7 @@ public class OrderServiceImpl implements IOrderService {
 	OrderStateMapper orderStateMapper;
 
 	@Override
+	//FIXME 增加事务支持
 	public boolean create(String orderJsonStr) {
 		JSONObject jsonObject = null;
 		try {
@@ -47,9 +48,14 @@ public class OrderServiceImpl implements IOrderService {
 		OrderDTO orderDTO = JSONObject.toJavaObject(jsonObject, OrderDTO.class);
 		long serialNo = SnowflakeIdWorker.generateSerialNos();
 		orderDTO.getBaseInfo().setSerialNo(String.valueOf(serialNo));
+		orderDTO.getBaseInfo().setStatus("");
 		try {
 			orderInfoMapper.insertSelective(orderDTO.getBaseInfo());
 			// 服务测试时，只支持一个商品的订单
+			List<OrderProduct> orderProducts = orderDTO.getProducts();
+			for (OrderProduct orderProduct : orderProducts) {
+				orderProduct.setSerialNo(String.valueOf(serialNo));
+			}
 			orderProductMapper.insertSelective(orderDTO.getProducts().get(0));
 			OrderState state = new OrderState();
 			state.setSerialNo(String.valueOf(serialNo));

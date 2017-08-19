@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `tb_ord_inf`;
 
 CREATE TABLE `tb_ord_inf` (
   `tid` varchar(32) NOT NULL,
-  `serial_no` varchar(16) DEFAULT NULL COMMENT '流水号',
+  `serial_no` varchar(18) DEFAULT NULL COMMENT '流水号',
   `status` varchar(30) DEFAULT NULL COMMENT '订单状态',
   `pay_type` char(10) DEFAULT NULL COMMENT '支付类型',
   `pay_status` varchar(16) DEFAULT NULL COMMENT '支付状态',
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `tb_ord_produt`;
 
 CREATE TABLE `tb_ord_produt` (
   `tid` varchar(32) NOT NULL,
-  `serial_no` varchar(16) DEFAULT NULL COMMENT '流水号',
+  `serial_no` varchar(18) DEFAULT NULL COMMENT '流水号',
   `prd_name` varchar(30) DEFAULT NULL COMMENT '商品名',
   `prd_price` decimal(18,2) DEFAULT NULL COMMENT '商品价',
   `prd_qty` int(4) DEFAULT NULL COMMENT '数量',
@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `tb_ord_state`;
 
 CREATE TABLE `tb_ord_state` (
   `tid` varchar(32) NOT NULL,
-  `serial_no` varchar(16) DEFAULT NULL COMMENT '流水号',
+  `serial_no` varchar(18) DEFAULT NULL COMMENT '流水号',
   `status` varchar(30) DEFAULT NULL COMMENT '订单状态',
   `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_by` varchar(32) DEFAULT NULL,

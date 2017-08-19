@@ -29,7 +29,7 @@ public class OrderController {
 	 * @param orderJsonStr
 	 * @return
 	 */
-	@RequestMapping(value = "create", method = RequestMethod.POST)
+	@RequestMapping(value = "create", method = {RequestMethod.POST,RequestMethod.GET})
 	public String createOrder(String orderJsonStr) {
 		boolean result = orderService.create(orderJsonStr);
 		return result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL;
