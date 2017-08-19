@@ -5,18 +5,17 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.simplemall.micro.serv.common.bean.order.OrderDTO;
+import com.simplemall.micro.serv.common.bean.order.OrderInfo;
+import com.simplemall.micro.serv.common.bean.order.OrderInfoCriteria;
+import com.simplemall.micro.serv.common.bean.order.OrderProduct;
+import com.simplemall.micro.serv.common.bean.order.OrderProductCriteria;
+import com.simplemall.micro.serv.common.bean.order.OrderState;
+import com.simplemall.micro.serv.common.bean.order.OrderStateCriteria;
 import com.simplemall.micro.serv.common.util.SnowflakeIdWorker;
-import com.simplemall.micro.serv.order.bean.OrderDTO;
-import com.simplemall.micro.serv.order.bean.OrderInfo;
-import com.simplemall.micro.serv.order.bean.OrderInfoCriteria;
-import com.simplemall.micro.serv.order.bean.OrderProduct;
-import com.simplemall.micro.serv.order.bean.OrderProductCriteria;
-import com.simplemall.micro.serv.order.bean.OrderState;
-import com.simplemall.micro.serv.order.bean.OrderStateCriteria;
 import com.simplemall.micro.serv.order.mapper.OrderInfoMapper;
 import com.simplemall.micro.serv.order.mapper.OrderProductMapper;
 import com.simplemall.micro.serv.order.mapper.OrderStateMapper;
@@ -38,7 +37,12 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public boolean create(String orderJsonStr) {
-		JSONObject jsonObject = JSONObject.parseObject(orderJsonStr);
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = JSONObject.parseObject(orderJsonStr);
+		} catch (Exception exception) {
+			logger.error("订单数据解析异常{}", exception);
+		}
 
 		OrderDTO orderDTO = JSONObject.toJavaObject(jsonObject, OrderDTO.class);
 		long serialNo = SnowflakeIdWorker.generateSerialNos();
@@ -53,7 +57,7 @@ public class OrderServiceImpl implements IOrderService {
 			orderStateMapper.insertSelective(state);
 			logger.info("订单创建成功，订单号是{}", serialNo);
 		} catch (Exception e) {
-			logger.error("异常发生，{}", e);
+			logger.error("创建订单异常发生，{}", e);
 		}
 		return false;
 	}
@@ -84,7 +88,7 @@ public class OrderServiceImpl implements IOrderService {
 		orderState.setSerialNo(tid);
 		orderState.setStatus(state);
 		int result = orderStateMapper.insertSelective(orderState);
-		logger.info("{}订单状态变更，当前状态{}.",tid,state);
+		logger.info("{}订单状态变更，当前状态{}.", tid, state);
 		return result > 0 ? true : false;
 	}
 

@@ -1,6 +1,6 @@
 package com.simplemall.micro.serv.order.service;
 
-import com.simplemall.micro.serv.order.bean.OrderDTO;
+import com.simplemall.micro.serv.common.bean.order.OrderDTO;
 
 /**
  * 订单服务类

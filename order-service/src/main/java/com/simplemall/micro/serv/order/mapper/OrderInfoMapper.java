@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.simplemall.micro.serv.order.bean.OrderInfo;
-import com.simplemall.micro.serv.order.bean.OrderInfoCriteria;
+import com.simplemall.micro.serv.common.bean.order.OrderInfo;
+import com.simplemall.micro.serv.common.bean.order.OrderInfoCriteria;
 
 public interface OrderInfoMapper {
     /**
