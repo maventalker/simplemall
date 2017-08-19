@@ -18,10 +18,10 @@ import com.netflix.loadbalancer.RandomRule;
 @EnableFeignClients
 @EnableEurekaClient
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
-public class PageApplication {
+public class PageClientApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PageApplication.class, args);
+		SpringApplication.run(PageClientApplication.class, args);
 	}
 
 	@Bean

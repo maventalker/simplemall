@@ -2,8 +2,9 @@ package com.simplemall.micro.serv.page.client;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.common.bean.product.PrdInfo;
 
 /**
@@ -15,6 +16,6 @@ import com.simplemall.micro.serv.common.bean.product.PrdInfo;
 @FeignClient(name = "PRODUCT-SERVICE")
 public interface ProductFeignClient {
 
-	@RequestMapping("/prd/{prdId}")
-	public RestAPIResult<PrdInfo> getPorudctById(String prdId);
+	@RequestMapping(value = "/prd/{prdId}",method = RequestMethod.POST)
+	public PrdInfo getPorudctById(@RequestParam(value = "prdId",required= true) String prdId);
 }

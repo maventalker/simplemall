@@ -15,7 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(value="订单服务",description="")
+@Api(value="订单服务",tags="订单服务接口")
 @RestController
 @RequestMapping("/order")
 public class APIOrderController {
@@ -27,12 +27,11 @@ public class APIOrderController {
 	RestTemplate restTemplate;
 
 	@ApiOperation(value = "创建订单")
-	@RequestMapping(value = "create", method = RequestMethod.GET)
+	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
 		this.loadBalancerClient.choose("ORDER-SERVICE");// 随机访问策略
-		return restTemplate
-				.getForEntity("http://ORDER-SERVICE:8083/order/create?orderJsonStr=" + orderJsonStr, String.class)
-				.getBody();
+		String url = "http://ORDER-SERVICE:8083/order/create?orderJsonStr={orderJsonStr}";
+		return restTemplate.getForObject(url, String.class, orderJsonStr);
 
 	}
 	
@@ -45,4 +44,6 @@ public class APIOrderController {
 		restAPIResult.setRespData(restTemplate.getForEntity("", OrderDTO.class).getBody());
 		return restAPIResult;
 	}
+	
+	
 }

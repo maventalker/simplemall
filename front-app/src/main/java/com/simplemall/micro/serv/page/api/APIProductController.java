@@ -1,5 +1,6 @@
 package com.simplemall.micro.serv.page.api;
 
+import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(value = "商品服务")
+@Api(value = "商品服务", tags = "商品服务")
 @RestController
 @RequestMapping("/prd")
 public class APIProductController {
@@ -26,13 +27,39 @@ public class APIProductController {
 	@Autowired
 	ProductFeignClient feignClient;
 
-	@ApiOperation(value = "get product detail")
+	@ApiOperation(value = "获取商品详情")
 	@RequestMapping(value = "{tid}", method = RequestMethod.POST)
 	public RestAPIResult<PrdInfo> getProductById(
 			@ApiParam(value = "product id") @RequestParam(required = true) String prdId) {
+		RestAPIResult<PrdInfo> restAPIResult = new RestAPIResult<>();
 		logger.info("begin invoke product service");
-		RestAPIResult<PrdInfo> restAPIResult = feignClient.getPorudctById(prdId);
+		PrdInfo info = feignClient.getPorudctById(prdId);
+		restAPIResult.setRespData(info);
 		return restAPIResult;
+	}
+	
+	/**
+	 * @param prdId
+	 * @return
+	 */
+	@ApiOperation(value = "购买商品，前提是先登陆")
+	@RequestMapping(value = "{prdId}", method = RequestMethod.POST)
+	public boolean buyProduct(String prdId, HttpRequest request) {
+		if (checkAccountOnLine(request)) {
+			return false;
+		}
+		//TODO 登陆后，跳转到结算页面，录入收货地址、支付方式、收货方式等等
+		return true;
+	}
+
+	/**
+	 * 校验用户是否登陆
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private boolean checkAccountOnLine(HttpRequest request) {
+		return false;
 	}
 
 }
