@@ -1,5 +1,8 @@
 package com.simplemall.micro.serv.page.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +43,9 @@ public class APIOrderController {
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
 		this.loadBalancerClient.choose(ORDER_SERVICE);// 随机访问策略
-		return restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create?orderJsonStr={orderJsonStr}", String.class,
+		Map<String, Object> uriVariables = new HashMap<String, Object>();
+	    uriVariables.put("orderJsonStr", orderJsonStr);
+		return restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create", String.class,
 				orderJsonStr);
 
 	}
@@ -58,9 +63,12 @@ public class APIOrderController {
 			@RequestParam(required = true) String accountId) {
 		RestAPIResult<OrderDTO> restAPIResult = new RestAPIResult<>();
 		this.loadBalancerClient.choose(ORDER_SERVICE);
+		Map<String, Object> uriVariables = new HashMap<String, Object>();
+	    uriVariables.put("serialNo", serialNo);
+	    uriVariables.put("accountId", accountId);
 		restAPIResult.setRespData(
-				restTemplate.getForObject(ORDER_SERVICE_URL + "/order/view?serialNo={serialNo}&accountId={accountId}",
-						OrderDTO.class, serialNo, accountId));
+				restTemplate.getForObject(ORDER_SERVICE_URL + "/order/view",
+						OrderDTO.class, uriVariables));
 		return restAPIResult;
 	}
 

@@ -1,5 +1,5 @@
-# simplemall
-a simple mall which architecture based on  micro-service !
+# QuickStart
+A simple mall which architecture based on  micro-service !
 
 	base-serv，提供基础服务，包括路由，链路跟踪，配置中心等等
 	
@@ -11,7 +11,7 @@ a simple mall which architecture based on  micro-service !
 	
 	front-app，编写页面及服务的调用，h5开发
 	
-each application module port
+Each application module port
 	
 	sleuth server:9001
 	admin server :9002
