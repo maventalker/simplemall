@@ -50,4 +50,49 @@ public interface SystemConstants {
 		 */
 		public static final String FINISHED = "FINISHED";
 	}
+
+	/**
+	 * 支付状态
+	 * 
+	 * @author guooo
+	 *
+	 */
+	public static final class PAY_STATUS {
+
+		/**
+		 * 未支付
+		 */
+		public static final String UNPAY = "UNPAY";
+
+		/**
+		 * 已支付
+		 */
+		public static final String PAID = "PAID";
+
+	}
+
+	/**
+	 * 支付类型
+	 * 
+	 * @author guooo
+	 *
+	 */
+	public static final class PAY_TYPE {
+
+		/**
+		 * 支付宝
+		 */
+		public static final String ALIPAY = "ALIPAY";
+
+		/**
+		 * 财富通
+		 */
+		public static final String TENPAY = "TENPAY";
+
+		/**
+		 * 银行卡
+		 */
+		public static final String CARD = "CARD";
+
+	}
 }
