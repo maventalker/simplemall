@@ -1,3 +1,4 @@
+
 package com.simplemall.micro.serv.page;
 
 import org.springframework.boot.SpringApplication;
