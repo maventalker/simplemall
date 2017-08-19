@@ -34,7 +34,7 @@ public class APIOrderController {
 	RestTemplate restTemplate;
 
 	/**
-	 * 创建订单
+	 * 创建订单，json数据可参照order-service模块中的提供的测试方法中产生
 	 * 
 	 * @param orderJsonStr
 	 * @return

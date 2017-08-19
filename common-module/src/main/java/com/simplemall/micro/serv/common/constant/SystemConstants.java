@@ -95,4 +95,16 @@ public interface SystemConstants {
 		public static final String CARD = "CARD";
 
 	}
+
+	/**
+	 * 配送方式
+	 * 
+	 * @author xingxing
+	 *
+	 */
+	public static final class SHIP_WAY {
+		public static final String FEDEX = "FEDEX";
+		public static final String UPS = "UPS";
+		public static final String DHL = "DHL";
+	}
 }

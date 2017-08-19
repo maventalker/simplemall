@@ -4,7 +4,7 @@
 <generatorConfiguration>
 	<!-- jdbc路径 -->
 	<classPathEntry
-			location="C:\dev\Reporsitory\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" />
+			location="/Users/xingxing/.m2/repository/mysql/mysql-connector-java/5.1.41/mysql-connector-java-5.1.41.jar" />
 	<context id="context" targetRuntime="MyBatis3">
 		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
 			<property name="searchString" value="Example$" />

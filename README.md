@@ -9,7 +9,7 @@ A simple mall which architecture based on  micro-service !
 	msg-service，消息处理，采用kafaka异步消费
 	order-service，订单模块，提供订单维护功能
 	
-	front-app，编写页面及服务的调用，h5开发
+	front-app，页面及服务的调用，目前仅以接口调用实现
 	
 Each application module port
 	
