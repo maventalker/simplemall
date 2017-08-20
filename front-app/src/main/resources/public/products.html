@@ -5,26 +5,65 @@
 <title>SimpleMall product list</title>
 <!-- 引入 Bootstrap -->
 <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-resource.min.js" type="text/javascript"></script>
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 </head>
 <body>
-	<table class="table table-bordered table-hover">
+	<div id="app">
+		<table class="table table-bordered table-hover">
 
-		<thead>
-			<tr>
-				<td>Product Name</td>
-				<td>ShortDesc</td>
-				<td>Price</td>
-				<td>Action
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>test</td>
-				<td>test</td>
-				<td>test</td>
-				<td>Buy</td>
-			</tr>
-		</tbody>
-	</table>
+			<thead>
+				<tr>
+					<td>Product Name</td>
+					<td>ShortDesc</td>
+					<td>Price</td>
+					<td>Action
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>test</td>
+					<td>test</td>
+					<td>test</td>
+					<td>Buy</td>
+				</tr>
+			</tbody>
+		</table>
+		<li v-for="(item,index) in productData">{{item[index].tid }}</li>
+	</div>
+	<script type="text/javascript">
+		var productData;
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : 'Hello Vue!'
+			},
+			created : function() {
+				// `this` 指向 vm 实例
+				this.$http.post('/prd/list').then(function(resp) {
+					productData = resp.body.respData
+					console.log('a is: ' + resp.body.respData)
+				})
+			},
+			methods : {
+				invokeSignupEvent : function() {
+					// 等同于jquery的$.ajax
+					this.$http.post('/acc/signup', {
+						phone : this.$refs.phone.value,
+						password : this.$refs.password.value
+					}, {
+						emulateJSON : true
+					}).then(function(res) {
+						this.message = res.body.respMsg
+						console.log(res.body.respMsg)
+					}, function(res) {
+						console.log(res.body.respData);
+					})
+				}
+
+			}
+		})
+	</script>
 </body>
 </html>

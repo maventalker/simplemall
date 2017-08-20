@@ -1,5 +1,7 @@
 package com.simplemall.micro.serv.prd.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,5 +28,14 @@ public class PorudctController {
 		return prdService.getProductById(prdId);
 	}
 
-	
+	/**
+	 * 获取商品列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "list", method = RequestMethod.POST)
+	public List<PrdInfo> list() {
+		return prdService.queryPrdList();
+	}
+
 }

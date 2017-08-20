@@ -1,5 +1,7 @@
 package com.simplemall.micro.serv.page.api;
 
+import java.util.List;
+
 import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +40,21 @@ public class APIProductController {
 		return restAPIResult;
 	}
 	
+	@ApiOperation(value = "商品列表展示")
+	@RequestMapping(value = "list", method = RequestMethod.POST)
+	public RestAPIResult<List<PrdInfo>> list() {
+		RestAPIResult<List<PrdInfo>> restAPIResult = new RestAPIResult<>();
+		List<PrdInfo> products = feignClient.list();
+		restAPIResult.setRespData(products);
+		return restAPIResult;
+	}
+	
 	/**
 	 * @param prdId
 	 * @return
 	 */
 	@ApiOperation(value = "购买商品，前提是先登陆")
-	@RequestMapping(value = "{prdId}", method = RequestMethod.POST)
+	@RequestMapping(value = "buy/{prdId}", method = RequestMethod.POST)
 	public boolean buyProduct(String prdId, HttpRequest request) {
 		if (checkAccountOnLine(request)) {
 			return false;
