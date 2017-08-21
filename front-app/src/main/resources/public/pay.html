@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SimpleMall Signup</title>
+<!-- 引入 Bootstrap -->
+<link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-router.js" type="text/javascript"></script>
+<script src="js/vue-resource.min.js" type="text/javascript"></script>
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="app">
+		<div class="page-header">
+			<h1>
+				<div class="alert alert-success" role="alert">Well done! Your
+					OrderNO is {{}}.</div>
+			</h1>
+		</div>
+		<button type="button" class="btn btn-primary btn-lg btn-block"
+			v-on:click="payIt">Pay it Now</button>
+	</div>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : 'Hello Vue!'
+			},
+			methods : {
+				payIt : function() {
+					alert(1212)
+				}
+
+			}
+		})
+	</script>
+</body>
+</html>

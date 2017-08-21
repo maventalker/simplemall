@@ -2,6 +2,8 @@ package com.simplemall.micro.serv.page.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.http.HttpRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.common.bean.product.PrdInfo;
+import com.simplemall.micro.serv.page.WebSecurityConfig;
 import com.simplemall.micro.serv.page.client.ProductFeignClient;
 
 import io.swagger.annotations.Api;
@@ -55,12 +58,13 @@ public class APIProductController {
 	 */
 	@ApiOperation(value = "购买商品，前提是先登陆")
 	@RequestMapping(value = "buy/{prdId}", method = RequestMethod.POST)
-	public boolean buyProduct(String prdId, HttpRequest request) {
-		if (checkAccountOnLine(request)) {
-			return false;
+	public RestAPIResult<Boolean> buyProduct(String prdId, HttpSession session) {
+		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
+		if (!checkAccountOnLine(session)) {
+			restAPIResult = new RestAPIResult<>("未登陆");
 		}
-		//TODO 登陆后，跳转到结算页面，录入收货地址、支付方式、收货方式等等
-		return true;
+		//登陆后，跳转到结算页面，录入收货地址、支付方式、收货方式等等
+		return restAPIResult;
 	}
 
 	/**
@@ -69,7 +73,9 @@ public class APIProductController {
 	 * @param request
 	 * @return
 	 */
-	private boolean checkAccountOnLine(HttpRequest request) {
+	private boolean checkAccountOnLine(HttpSession session) {
+		if (session.getAttribute(WebSecurityConfig.SESSION_KEY) != null)
+            return true;
 		return false;
 	}
 
