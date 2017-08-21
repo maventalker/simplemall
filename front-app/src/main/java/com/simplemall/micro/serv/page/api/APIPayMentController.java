@@ -53,7 +53,7 @@ public class APIPayMentController {
 			uriVariable.put("state", SystemConstants.PAY_STATUS.PAID);
 			int update = restTemplate.getForObject(ORDER_SERVICE_URL, Integer.class, uriNoticeVariable);
 
-			if (Math.addExact(payResult, update)<1) {
+			if ((payResult+ update)<1) {
 				restAPIResult = new RestAPIResult<>("支付失败，请稍后重试！");
 			}
 		}
