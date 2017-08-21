@@ -6,11 +6,17 @@
 <!-- 引入 Bootstrap -->
 <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-router.js" type="text/javascript"></script>
 <script src="js/vue-resource.min.js" type="text/javascript"></script>
 <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<div id="app">
+		<div class="page-header">
+			<h1>
+				商品列表</small>
+			</h1>
+		</div>
 		<table class="table table-bordered table-hover">
 
 			<thead>
@@ -22,28 +28,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>test</td>
-					<td>test</td>
-					<td>test</td>
-					<td>Buy</td>
+				<tr v-for="(item,index) in message">
+					<td>{{item.labelName}}</td>
+					<td>{{item.shortDesc}}</td>
+					<td>￥{{item.price}}</td>
+					<td><button type="button" class="btn btn-primary" >购买</button></td>
 				</tr>
 			</tbody>
 		</table>
-		<li v-for="(item,index) in productData">{{item[index].tid }}</li>
 	</div>
 	<script type="text/javascript">
 		var productData;
 		var app = new Vue({
 			el : '#app',
 			data : {
-				message : 'Hello Vue!'
+				message : ''
 			},
 			created : function() {
 				// `this` 指向 vm 实例
 				this.$http.post('/prd/list').then(function(resp) {
 					productData = resp.body.respData
-					console.log('a is: ' + resp.body.respData)
+					this.message = resp.body.respData;
+					console.log(resp.body.respData);
 				})
 			},
 			methods : {
