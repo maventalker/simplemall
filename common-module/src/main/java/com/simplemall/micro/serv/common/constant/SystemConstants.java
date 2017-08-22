@@ -7,6 +7,7 @@ package com.simplemall.micro.serv.common.constant;
  *
  */
 public interface SystemConstants {
+	public static final String API_KEY = "9223a431a6e24355901e95a521bb3455";
 
 	public static final class Code {
 		public static final String SUCCESS = "1";
