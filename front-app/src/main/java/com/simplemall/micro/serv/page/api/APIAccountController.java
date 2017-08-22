@@ -2,6 +2,8 @@ package com.simplemall.micro.serv.page.api;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +44,13 @@ public class APIAccountController {
 	@ApiOperation(value = "用户注册")
 	@RequestMapping(value = "login", method = { RequestMethod.POST })
 	public RestAPIResult<String> login(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
-			@ApiParam(value = "密码") @RequestParam(required = true) String password) {
+			@ApiParam(value = "密码") @RequestParam(required = true) String password,HttpSession session) {
 		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
 		String result = accountFeignClient.login(phone, password);
 		if (SystemConstants.Code.FAIL.equals(result)) {
 			restAPIResult = new RestAPIResult<>("登陆失败，用户名或密码不正确!");
+		}else {
+//			session.setAttribute(WebSecurityConfig.SESSION_KEY, phone);
 		}
 		restAPIResult.setRespData(result);
 		logger.info("login result = {}", restAPIResult.getRespData());

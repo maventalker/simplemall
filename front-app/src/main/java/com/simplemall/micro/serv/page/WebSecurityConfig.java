@@ -44,3 +44,4 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 }
+
