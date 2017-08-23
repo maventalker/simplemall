@@ -1,5 +1,7 @@
 package com.simplemall.micro.serv.order.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -45,6 +47,10 @@ public class OrderServiceImpl implements IOrderService {
 	public boolean create(String orderJsonStr) {
 		JSONObject jsonObject = null;
 		try {
+			if ("mock".equals(orderJsonStr)) {
+				//mock data to generate order data
+				orderJsonStr = assembleMockData();
+			}
 			jsonObject = JSONObject.parseObject(orderJsonStr);
 		} catch (Exception exception) {
 			logger.error("订单数据解析异常{}", exception);
@@ -71,6 +77,34 @@ public class OrderServiceImpl implements IOrderService {
 			logger.error("创建订单异常发生，{}", e);
 		}
 		return false;
+	}
+
+	private String assembleMockData() {
+			OrderDTO orderDTO = new OrderDTO();
+			//base info 
+			OrderInfo info = new OrderInfo();
+			info.setSerialNo(String.valueOf(SnowflakeIdWorker.generateSerialNos()));
+			info.setPayStatus(SystemConstants.PAY_STATUS.UNPAY);
+			info.setPayType(SystemConstants.PAY_TYPE.ALIPAY);
+			info.setPostFee(BigDecimal.valueOf(23.45));
+			info.setPostWay(SystemConstants.SHIP_WAY.FEDEX);
+			info.setPrice(BigDecimal.valueOf(3400));
+			info.setShippingAccount("Guooo");
+			info.setShippingAddress("Tianxin District,ChangSha,China");
+			info.setShippingPhone("176737388866");
+			orderDTO.setBaseInfo(info);
+			
+			//product info
+			OrderProduct product = new OrderProduct();
+			product.setPrdName("一加手机5 (A5000) 8GB+128GB 星辰黑 全网通 双卡双待 移动联通电信4G手机");
+			product.setPrdPrice(BigDecimal.valueOf(3400));
+//			product.setSerialNo("");在添加工程中，自动添加进去
+			product.setPrdQty(1);
+			List<OrderProduct> products = new ArrayList<>();
+			products.add(product);
+			orderDTO.setProducts(products);
+			
+			return JSONObject.toJSONString(orderDTO);
 	}
 
 	@Override

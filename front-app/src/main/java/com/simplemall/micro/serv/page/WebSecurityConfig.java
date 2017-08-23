@@ -20,21 +20,21 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 对请求进行认证
 				.authorizeRequests()
 				// 所有 / 的所有请求 都放行
-				.antMatchers("/").permitAll()
+				.antMatchers("/").permitAll();
 				// 所有 /login 的POST请求 都放行
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				//.antMatchers(HttpMethod.POST, "/login").permitAll()
 				// 权限检查
-				.antMatchers("/order").hasAuthority("AUTH_WRITE")
-				.antMatchers("/pay").hasAuthority("AUTH_WRITE")
+				//.antMatchers("/order").hasAuthority("AUTH_WRITE")
+				//.antMatchers("/pay").hasAuthority("AUTH_WRITE")
 				// 角色检查
-				.antMatchers("/world").hasRole("ADMIN")
+				//.antMatchers("/world").hasRole("ADMIN")
 				// 所有请求需要身份认证
-				.anyRequest().authenticated().and()
+				//.anyRequest().authenticated().and()
 				// 添加一个过滤器 所有访问 /login 的请求交给 JWTLoginFilter 来处理 这个类处理所有的JWT相关内容
-				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class)
+				//.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+				//		UsernamePasswordAuthenticationFilter.class)
 				// 添加一个过滤器验证其他请求的Token是否合法
-				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+				//.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,6 @@ import io.swagger.annotations.ApiParam;
  */
 @Api(value = "用户服务", tags = "用户服务接口")
 @RestController
-@RequestMapping("/acc")
 public class APIAccountController {
 
 	private Logger logger = LoggerFactory.getLogger(APIAccountController.class);
@@ -42,7 +42,7 @@ public class APIAccountController {
 	private RestTemplate restTemplate;
 
 	@ApiOperation(value = "用户注册")
-	@RequestMapping(value = "login", method = { RequestMethod.POST })
+	@RequestMapping(value = "acc/login", method = { RequestMethod.POST })
 	public RestAPIResult<String> login(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
 			@ApiParam(value = "密码") @RequestParam(required = true) String password,HttpSession session) {
 		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
@@ -63,7 +63,7 @@ public class APIAccountController {
 	 * @return
 	 */
 	@ApiOperation(value = "用户登陆")
-	@RequestMapping(value = "signup", method = { RequestMethod.POST })
+	@RequestMapping(value = "acc/signup", method = { RequestMethod.POST })
 	public RestAPIResult<String> signup(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
 			@ApiParam(value = "密码") @RequestParam(required = true) String password) {
 		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
@@ -84,7 +84,7 @@ public class APIAccountController {
 	 */
 	@ApiOperation(value = "获取用户地址列表")
 	@RequestMapping(value = "address/list/{accountTid}", method = RequestMethod.POST)
-	public RestAPIResult<List<AccAddress>> queryAccAddress(String accountTid) {
+	public RestAPIResult<List<AccAddress>> queryAccAddress(@PathVariable("accountTid") String accountTid) {
 		RestAPIResult<List<AccAddress>> apiResult = new RestAPIResult<>();
 		List<AccAddress> liString = accountFeignClient.getList(accountTid);
 		apiResult.setRespData(liString);

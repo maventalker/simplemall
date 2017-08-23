@@ -3,6 +3,7 @@ package com.simplemall.micro.serv.page.client;
 import java.util.List;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,5 +46,5 @@ public interface AccountFeignClient {
 	 * @return
 	 */
 	@RequestMapping("/address/list/{accountTid}")
-	public List<AccAddress> getList(@RequestParam(value = "accountTid", required = true) String accountTid);
+	public List<AccAddress> getList(@RequestParam(value = "accountTid", required = true) @PathVariable("accountTid") String accountTid);
 }

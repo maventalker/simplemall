@@ -25,7 +25,7 @@
 					<div class="radio" v-for="(item,index) in message">
 						<label> <input type="radio" name="optionsRadios"
 							id="optionsRadios1" value="{{item.tid}}" checked>
-							{{item.realName}}-{{item.detailAddress}}
+							{{item.realName}}---{{item.detailAddress}}
 						</label>
 					</div>
 				</ul>
@@ -65,17 +65,20 @@
 			},
 			created : function() {
 				// `this` 指向 vm 实例
-				this.$http.post('address/list/{accountTid}').then(
+				this.$http.post('address/list/56aba27a825b11e787bb507b9dde98b7',{
+					accountTid:"56aba27a825b11e787bb507b9dde98b7"
+				}).then(
 						function(resp) {
-							productData = resp.body.respData
 							this.message = resp.body.respData;
 							console.log(resp.body.respData);
 						})
 			},
 			methods : {
 				invokeCreateOrder : function() {
+					console.log("begin create order")
 					this.$http.post('/order/create', {
-						orderJsonStr : assembleJsonData()
+						//just mock a order data instead of use VUE2 to get real page data
+						orderJsonStr : "mock"
 					}, {
 						emulateJSON : true
 					}).then(function(res) {
