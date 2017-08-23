@@ -29,7 +29,7 @@ CREATE TABLE `tb_ord_inf` (
   `shipping_account` varchar(32) DEFAULT NULL COMMENT '账户',
   `shipping_name` varchar(20) DEFAULT NULL COMMENT '收货人',
   `shipping_address` varchar(200) DEFAULT NULL COMMENT '收货地址',
-  `shipping_phone` varchar(11) DEFAULT NULL COMMENT '收货电话',
+  `shipping_phone` varchar(15) DEFAULT NULL COMMENT '收货电话',
   `post_way` char(10) DEFAULT NULL COMMENT '发货方式',
   `post_fee` decimal(18,2) DEFAULT NULL COMMENT '配送费',
   `price` decimal(18,2) DEFAULT NULL COMMENT '订单总价',
@@ -55,8 +55,8 @@ DROP TABLE IF EXISTS `tb_ord_produt`;
 
 CREATE TABLE `tb_ord_produt` (
   `tid` varchar(32) NOT NULL,
-  `serial_no` varchar(18) DEFAULT NULL COMMENT '流水号',
-  `prd_name` varchar(30) DEFAULT NULL COMMENT '商品名',
+  `serial_no` varchar(32) DEFAULT NULL COMMENT '流水号',
+  `prd_name` varchar(50) DEFAULT NULL COMMENT '商品名',
   `prd_price` decimal(18,2) DEFAULT NULL COMMENT '商品价',
   `prd_qty` int(4) DEFAULT NULL COMMENT '数量',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `tb_ord_state`;
 
 CREATE TABLE `tb_ord_state` (
   `tid` varchar(32) NOT NULL,
-  `serial_no` varchar(18) DEFAULT NULL COMMENT '流水号',
+  `serial_no` varchar(32) DEFAULT NULL COMMENT '流水号',
   `status` varchar(30) DEFAULT NULL COMMENT '订单状态',
   `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_by` varchar(32) DEFAULT NULL,

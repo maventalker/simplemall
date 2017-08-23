@@ -44,9 +44,8 @@ public class APIOrderController {
 	public String createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
 		this.loadBalancerClient.choose(ORDER_SERVICE);// 随机访问策略
 		Map<String, Object> uriVariables = new HashMap<String, Object>();
-	    uriVariables.put("orderJsonStr", orderJsonStr);
 		return restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create", String.class,
-				orderJsonStr);
+				uriVariables);
 
 	}
 

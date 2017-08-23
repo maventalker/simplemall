@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
 	public boolean create(String orderJsonStr) {
 		JSONObject jsonObject = null;
 		try {
-			if ("mock".equals(orderJsonStr)) {
+			if (StringUtils.isEmpty(orderJsonStr)) {
 				//mock data to generate order data
 				orderJsonStr = assembleMockData();
 			}
