@@ -1,5 +1,5 @@
-# simplemall
-a simple mall which architecture based on  micro-service !
+# QuickStart
+A simple mall which architecture based on  micro-service !
 
 	base-serv，提供基础服务，包括路由，链路跟踪，配置中心等等
 	
@@ -11,16 +11,22 @@ a simple mall which architecture based on  micro-service !
 	
 	front-app，编写页面及服务的调用，h5开发
 	
-each application module port
+Each application module port
 	
 	sleuth server:9001
 	admin server :9002
 	eureka server:9003
 	cofig server :9004
-
 	account-service:8080
 	product-service:8081
 	payment-service:8082
 	order-service  :8083
 	msg-service    :8084
 	front-app      :8088
+#Release Version
+##v1.0 
+	Release Date : 2017-08-17
+	1、完成基本服务及业务子模块服务的搭建 ，业务子模块可正常运行
+	2、完成SpringBootAdmin业务模块的运行监控，及Eureka服务运行，满足各业务基础服务的注册、发现功能
+	3、可通过Front-app端，借助Feign组件发起login/signup等功能的 简单测试运行。
+	下一版本，将基于此版本之上，继续完善完整的购物实现，包括简单的页面、api管理/调用等等。
