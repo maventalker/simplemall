@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,9 @@ import io.swagger.annotations.ApiParam;
 public class APIAccountController {
 
 	private Logger logger = LoggerFactory.getLogger(APIAccountController.class);
+	
+	@Value("${switch.sms}")
+	String switch_sms;
 
 	@Autowired
 	private AccountFeignClient accountFeignClient;
@@ -66,6 +70,7 @@ public class APIAccountController {
 	@RequestMapping(value = "acc/signup", method = { RequestMethod.POST })
 	public RestAPIResult<String> signup(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
 			@ApiParam(value = "密码") @RequestParam(required = true) String password) {
+		System.out.println(switch_sms+"开关数据");
 		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
 		String rtn = accountFeignClient.signup(phone, password);
 		if (SystemConstants.Code.FAIL.equals(rtn)) {
