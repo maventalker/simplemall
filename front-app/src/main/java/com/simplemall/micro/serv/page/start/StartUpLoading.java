@@ -1,4 +1,4 @@
-package com.simplemall.micro.serv.page;
+package com.simplemall.micro.serv.page.start;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.simplemall.micro.serv.page;
+package com.simplemall.micro.serv.page.security;
 
 import org.springframework.security.core.GrantedAuthority;
 
