@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "用户服务", tags = "用户服务接口")
 @RestController
 @RefreshScope //使用该注解的类，会在接到SpringCloud配置中心配置刷新的时候，自动将新的配置更新到该类对应的字段中。
+//FIXME next step ,use bus function to enhance it
 public class APIAccountController {
 
 	private Logger logger = LoggerFactory.getLogger(APIAccountController.class);
@@ -42,7 +43,7 @@ public class APIAccountController {
 	 * 短信开关
 	 */
 	@Value("${switch.sms}")
-	private String switchSMS;
+	private boolean switchSMS;
 
 	@Autowired
 	private AccountFeignClient accountFeignClient;
@@ -80,9 +81,9 @@ public class APIAccountController {
 		if (SystemConstants.Code.FAIL.equals(rtn)) {
 			restAPIResult = new RestAPIResult<>("注册失败，用户名已存在!");
 		}else {
-//			if (switchSMS) {
-//				logger.info("开始发送注册成功短信！");
-//			}
+			if (switchSMS) {
+				logger.info("开始发送注册成功短信！");
+			}
 		}
 		restAPIResult.setRespData(rtn);
 		logger.info("login result = {}", restAPIResult.getRespData());
