@@ -24,3 +24,6 @@ Each application module port
 	order-service  :8083
 	msg-service    :8084
 	front-app      :8088
+
+Follow me
+    ![image](https://github.com/backkoms/simplemall/blob/develop/getqrcode.jpeg?raw=true)
