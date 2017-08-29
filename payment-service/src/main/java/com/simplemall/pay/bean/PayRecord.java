@@ -25,6 +25,13 @@ public class PayRecord {
     private String type;
 
     /**
+     * 价格
+     * 表 : tb_pay_record
+     * 对应字段 : price
+     */
+    private Float price;
+
+    /**
      * 支付状态
      * 表 : tb_pay_record
      * 对应字段 : status
@@ -125,6 +132,24 @@ public class PayRecord {
      */
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    /**
+     * get method 
+     *
+     * @return tb_pay_record.price：价格
+     */
+    public Float getPrice() {
+        return price;
+    }
+
+    /**
+     * set method 
+     *
+     * @param price  价格
+     */
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
     /**

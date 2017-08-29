@@ -24,9 +24,9 @@ public class PayController {
 	 * @param payType
 	 * @return
 	 */
-	@RequestMapping(value = "/pay", method = RequestMethod.POST)
-	public Integer pay(@RequestParam("serialNo") String serialNo, @RequestParam("payType") String payType,
-			@RequestParam("price") BigDecimal price) {
+	@RequestMapping(value = "pay", method = RequestMethod.POST)
+	public Integer pay(@RequestParam(value = "serialNo") String serialNo, @RequestParam(value = "payType") String payType,
+			@RequestParam(value = "price") BigDecimal price) {
 		int result = payService.pay(serialNo, payType, price);
 		return result;
 	}
