@@ -27,7 +27,8 @@ CREATE TABLE `tb_ord_inf` (
   `pay_type` char(10) DEFAULT NULL COMMENT '支付类型',
   `pay_status` varchar(16) DEFAULT NULL COMMENT '支付状态',
   `shipping_account` varchar(32) DEFAULT NULL COMMENT '账户',
-  `shipping_name` varchar(20) DEFAULT NULL COMMENT '收货人',
+  `account_id` varchar(32) DEFAULT NULL COMMENT '账户编号',
+  `shipping_name` varchar(200) DEFAULT NULL COMMENT '收货人',
   `shipping_address` varchar(200) DEFAULT NULL COMMENT '收货地址',
   `shipping_phone` varchar(15) DEFAULT NULL COMMENT '收货电话',
   `post_way` char(10) DEFAULT NULL COMMENT '发货方式',
@@ -56,7 +57,7 @@ DROP TABLE IF EXISTS `tb_ord_produt`;
 CREATE TABLE `tb_ord_produt` (
   `tid` varchar(32) NOT NULL,
   `serial_no` varchar(32) DEFAULT NULL COMMENT '流水号',
-  `prd_name` varchar(50) DEFAULT NULL COMMENT '商品名',
+  `prd_name` varchar(200) DEFAULT NULL COMMENT '商品名',
   `prd_price` decimal(18,2) DEFAULT NULL COMMENT '商品价',
   `prd_qty` int(4) DEFAULT NULL COMMENT '数量',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
