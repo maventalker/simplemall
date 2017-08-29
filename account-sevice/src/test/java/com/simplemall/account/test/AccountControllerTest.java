@@ -11,9 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.simplemall.account.AccountServApplication;
-import com.simplemall.account.bean.Account;
 import com.simplemall.account.dal.AccountMapper;
 import com.simplemall.account.service.IAccountService;
+import com.simplemall.micro.serv.common.bean.account.Account;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

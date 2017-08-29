@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simplemall.account.service.IAccountService;
-import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.common.constant.SystemConstants;
 
 /**
@@ -31,11 +30,9 @@ public class AccountController {
 	 * @return
 	 */
 	@RequestMapping(value = "login", method = {RequestMethod.GET,RequestMethod.POST})
-	public RestAPIResult<String> login(@RequestParam("phone") String phone, @RequestParam("password") String password) {
-		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
+	public String login(@RequestParam("phone") String phone, @RequestParam("password") String password) {
 		boolean result = accountService.login(phone, password);
-		restAPIResult.setRespData(result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL);
-		return restAPIResult;
+		return result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL;
 	}
 
 	/**
@@ -46,10 +43,8 @@ public class AccountController {
 	 * @return
 	 */
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
-	public RestAPIResult<String> signup(String phone, String password) {
-		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
+	public String signup(String phone, String password) {
 		boolean result = accountService.signup(phone, password);
-		restAPIResult.setRespData(result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL);
-		return restAPIResult;
+		return result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL;
 	}
 }

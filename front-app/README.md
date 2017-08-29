@@ -114,3 +114,5 @@ Caused by: java.lang.NullPointerException: null
 	at org.springframework.beans.factory.support.FactoryBeanRegistrySupport.doGetObjectFromFactoryBean(FactoryBeanRegistrySupport.java:168)
 	... 34 common frames omitted
 解决方案：swagger2版本过底导致的，需要采用高版本的jar。【笔者产生的此问题，由于采用swagger2-2.2.2版本】
+
+3、https://segmentfault.com/a/1190000009231329#articleHeader6 spring security + JWT

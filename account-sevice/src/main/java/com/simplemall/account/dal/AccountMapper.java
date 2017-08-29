@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.simplemall.account.bean.Account;
-import com.simplemall.account.bean.AccountCriteria;
+import com.simplemall.micro.serv.common.bean.account.Account;
+import com.simplemall.micro.serv.common.bean.account.AccountCriteria;
 
 public interface AccountMapper {
     /**

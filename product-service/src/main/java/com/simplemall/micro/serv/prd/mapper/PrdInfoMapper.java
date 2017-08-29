@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.simplemall.micro.serv.prd.bean.PrdInfo;
-import com.simplemall.micro.serv.prd.bean.PrdInfoCriteria;
+import com.simplemall.micro.serv.common.bean.product.PrdInfo;
+import com.simplemall.micro.serv.common.bean.product.PrdInfoCriteria;
 
 public interface PrdInfoMapper {
     /**

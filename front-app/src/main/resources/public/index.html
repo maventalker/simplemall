@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SimpleMall Signup</title>
+<!-- 引入 Bootstrap -->
+<link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-resource.min.js" type="text/javascript"></script>
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="jumbotron">
+		<h1>Hello, world!</h1>
+		<p>This is a Simple Mall unit, based on micro-service architecture
+			used Spring Cloud ! GitHub : https://github.com/backkoms/simplemall</p>
+		<p>
+			<a class="btn btn-primary btn-lg"
+				href="https://github.com/backkoms/simplemall" role="button">Learn
+				more</a>
+		</p>
+		<div id="app">{{ message }}</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el : '#app',
+				data : {
+					message : 'Hello Vue!'
+				}
+			})
+		</script>
+	</div>
+</body>
+</html>
+

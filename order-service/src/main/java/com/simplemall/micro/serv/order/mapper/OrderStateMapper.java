@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.simplemall.micro.serv.order.bean.OrderState;
-import com.simplemall.micro.serv.order.bean.OrderStateCriteria;
+import com.simplemall.micro.serv.common.bean.order.OrderState;
+import com.simplemall.micro.serv.common.bean.order.OrderStateCriteria;
 
 public interface OrderStateMapper {
     /**

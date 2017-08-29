@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SimpleMall Signup</title>
+<!-- 引入 Bootstrap -->
+<link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-router.js" type="text/javascript"></script>
+<script src="js/vue-resource.min.js" type="text/javascript"></script>
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="app">
+		<div class="page-header">
+			<h1>
+				CheckOut Center
+			</h1>
+		</div>
+		<div class="panel panel-primary">
+
+			<div class="panel-heading">Choose Shipping Address</div>
+			<div class="panel-body">
+				<ul class="list-group">
+					<div class="radio" v-for="(item,index) in message">
+						<label> <input type="radio" name="optionsRadios"
+							id="optionsRadios1" value="{{item.tid}}" checked>
+							{{item.realName}}---{{item.detailAddress}}
+						</label>
+					</div>
+				</ul>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">Choose Pay Way</div>
+			<div class="panel-body">
+				<select class="form-control" ref="payType">
+					<option value="0">请选择</option>
+					<option value="ALIPAY">支付宝</option>
+					<option value="TENPAY">微信支付</option>
+					<option value="CARD">银行卡</option>
+				</select>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">Choose Shipping Way</div>
+			<div class="panel-body">
+				<select class="form-control" ref="shipWay">
+					<option value="0">请选择</option>
+					<option value="FEDEX">FEDEX</option>
+					<option value="UPS">UPS</option>
+					<option value="DHL">DHL</option>
+				</select>
+			</div>
+		</div>
+		<p>
+		<button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="invokeCreateOrder">现在下单</button>
+		</p>
+	</div>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : ''
+			},
+			created : function() {
+				// `this` 指向 vm 实例
+				this.$http.post('address/list/56aba27a825b11e787bb507b9dde98b7',{
+					accountTid:"56aba27a825b11e787bb507b9dde98b7"
+				}).then(
+						function(resp) {
+							this.message = resp.body.respData;
+							console.log(resp.body.respData);
+						})
+			},
+			methods : {
+				invokeCreateOrder : function() {
+					console.log("begin create order")
+					this.$http.post('/order/create', {
+						//just mock a order data instead of use VUE2 to get real page data
+						orderJsonStr : "mock"
+					}, {
+						emulateJSON : true
+					}).then(function(res) {
+						this.message = res.body.respMsg
+						console.log(res.body.respMsg)
+					}, function(res) {
+						console.log(res.body.respData);
+					})
+				}
+
+			}
+		})
+	</script>
+</body>
+</html>
+

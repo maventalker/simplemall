@@ -2,7 +2,7 @@ package com.simplemall.account.service;
 
 import java.util.List;
 
-import com.simplemall.account.bean.AccAddress;
+import com.simplemall.micro.serv.common.bean.account.AccAddress;
 
 public interface IAccountService {
 

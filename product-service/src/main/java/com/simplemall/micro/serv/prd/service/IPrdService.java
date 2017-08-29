@@ -1,6 +1,8 @@
 package com.simplemall.micro.serv.prd.service;
 
-import com.simplemall.micro.serv.prd.bean.PrdInfo;
+import java.util.List;
+
+import com.simplemall.micro.serv.common.bean.product.PrdInfo;
 
 public interface IPrdService {
 
@@ -11,4 +13,11 @@ public interface IPrdService {
 	 * @return
 	 */
 	PrdInfo getProductById(String prdId);
+
+	/**
+	 * 获取商品列表
+	 * 
+	 * @return
+	 */
+	List<PrdInfo> queryPrdList();
 }

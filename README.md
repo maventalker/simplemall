@@ -9,7 +9,7 @@ A simple mall which architecture based on  micro-service !
 	msg-service，消息处理，采用kafaka异步消费
 	order-service，订单模块，提供订单维护功能
 	
-	front-app，编写页面及服务的调用，h5开发
+	front-app，页面及服务的调用，目前仅以接口调用实现
 	
 Each application module port
 	
@@ -23,6 +23,11 @@ Each application module port
 	order-service  :8083
 	msg-service    :8084
 	front-app      :8088
+
+
+关注公众号，了解项目进展
+    ![image](https://github.com/backkoms/simplemall/blob/develop/getqrcode.jpeg?raw=true)
+
 # Release Version
 ## v1.0 
 	Release Date : 2017-08-17
@@ -30,3 +35,4 @@ Each application module port
 	2、完成SpringBootAdmin业务模块的运行监控，及Eureka服务运行，满足各业务基础服务的注册、发现功能
 	3、可通过Front-app端，借助Feign组件发起login/signup等功能的 简单测试运行。
 	下一版本，将基于此版本之上，继续完善完整的购物实现，包括简单的页面、api管理/调用等等。
+

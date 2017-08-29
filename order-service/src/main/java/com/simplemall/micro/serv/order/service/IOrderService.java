@@ -1,6 +1,6 @@
 package com.simplemall.micro.serv.order.service;
 
-import com.simplemall.micro.serv.order.bean.OrderDTO;
+import com.simplemall.micro.serv.common.bean.order.OrderDTO;
 
 /**
  * 订单服务类
@@ -33,7 +33,8 @@ public interface IOrderService {
 	 * 
 	 * @param serialNo
 	 * @param state
+	 * @param orderStatus
 	 * @return
 	 */
-	boolean changeOrderState(String serialNo, String state);
+	boolean changeOrderState(String serialNo, String state, String orderStatus);
 }

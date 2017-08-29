@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.simplemall.micro.serv.common.bean.RestAPIResult;
+import com.simplemall.micro.serv.common.bean.order.OrderDTO;
 import com.simplemall.micro.serv.common.constant.SystemConstants;
-import com.simplemall.micro.serv.order.bean.OrderDTO;
 import com.simplemall.micro.serv.order.service.IOrderService;
 
 /**
@@ -30,12 +29,10 @@ public class OrderController {
 	 * @param orderJsonStr
 	 * @return
 	 */
-	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public RestAPIResult<String> createOrder(String orderJsonStr) {
-		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
+	@RequestMapping(value = "create", method = {RequestMethod.POST,RequestMethod.GET})
+	public String createOrder(String orderJsonStr) {
 		boolean result = orderService.create(orderJsonStr);
-		restAPIResult.setRespData(result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL);
-		return restAPIResult;
+		return result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL;
 	}
 
 	/**
@@ -45,26 +42,20 @@ public class OrderController {
 	 * @param accountId
 	 */
 	@RequestMapping(value = "view", method = RequestMethod.POST)
-	public RestAPIResult<OrderDTO> viewOrder(@RequestParam(required = true) String serialNo,
+	public OrderDTO viewOrder(@RequestParam(required = true) String serialNo,
 			@RequestParam(required = true) String accountId) {
-		RestAPIResult<OrderDTO> restAPIResult = new RestAPIResult<>();
-		OrderDTO dto = orderService.view(serialNo, accountId);
-		restAPIResult.setRespData(dto);
-		return restAPIResult;
+		return orderService.view(serialNo, accountId);
 	}
 
 	/**
-	 * 状态变更
+	 * 状态变更，主要供后台人员使用便于前端消费者跟踪订单状况
 	 * 
 	 * @param serialNo
 	 * @param state
 	 * @return
 	 */
 	@RequestMapping(value = "state/change", method = RequestMethod.POST)
-	public RestAPIResult<Boolean> changeOrderState(String serialNo, String state) {
-		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
-		boolean result = orderService.changeOrderState(serialNo, state);
-		restAPIResult.setRespData(result);
-		return restAPIResult;
+	public Boolean changeOrderState(String serialNo, String payStatus,String orderStatus) {
+		return orderService.changeOrderState(serialNo, payStatus,orderStatus);
 	}
 }

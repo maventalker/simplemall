@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SimpleMall login</title>
+<!-- 引入 Bootstrap -->
+<link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="js/vue.min.js" type="text/javascript"></script>
+<script src="js/vue-resource.min.js" type="text/javascript"></script>
+<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="app">
+		<div class="form-group">
+			<label for="exampleInputEmail1">Phone</label> <input type="email"
+				class="form-control" id="exampleInputEmail1" ref="phone"
+				placeholder="CellPhone">
+		</div>
+		<div class="form-group">
+			<label for="exampleInputPassword1">Password</label> <input
+				type="password" class="form-control" id="exampleInputPassword1"
+				ref="password" placeholder="Password">
+		</div>
+		<div class="alert alert-warning" role="alert">{{ message }}</div>
+		<button type="submit" class="btn btn-default" v-on:click="invokeLogin">Login</button>
+		<button type="button" class="btn btn-default"
+			v-on:click="invokeSignup">Free Signup!</button>
+	</div>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : 'Hello Vue!'
+			},
+			methods : {
+				invokeLogin : function() {
+					// 等同于jquery的$.ajax
+					this.$http.post('/acc/login', {
+						phone : this.$refs.phone.value,
+						password : this.$refs.password.value
+					}, {
+						emulateJSON : true
+					}).then(function(res) {
+						this.message = res.body.respMsg
+						console.log(res.body.respMsg)
+					}, function(res) {
+						console.log(res.body.respData);
+					})
+				},
+				invokeSignup : function() {
+					alert(12123123);
+				}
+
+			}
+		})
+	</script>
+</body>
+</html>
