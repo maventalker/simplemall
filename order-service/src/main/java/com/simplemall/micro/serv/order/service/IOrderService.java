@@ -33,7 +33,8 @@ public interface IOrderService {
 	 * 
 	 * @param serialNo
 	 * @param state
+	 * @param orderStatus
 	 * @return
 	 */
-	boolean changeOrderState(String serialNo, String state);
+	boolean changeOrderState(String serialNo, String state, String orderStatus);
 }

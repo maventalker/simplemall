@@ -71,7 +71,7 @@ public class OrderServiceImpl implements IOrderService {
 			orderProductMapper.insertSelective(orderDTO.getProducts().get(0));
 			OrderState state = new OrderState();
 			state.setSerialNo(orderDTO.getBaseInfo().getTid());
-			state.setStatus("创建订单");
+			state.setStatus(SystemConstants.STATE.CREATE);
 			orderStateMapper.insertSelective(state);
 			logger.info("订单创建成功，订单号是{}", serialNo);
 			return true;
@@ -130,17 +130,18 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public boolean changeOrderState(String tid, String state) {
+	public boolean changeOrderState(String tid, String payStatus,String orderStatus) {
 		OrderState orderState = new OrderState();
 		orderState.setSerialNo(tid);
-		orderState.setStatus(state);
+		orderState.setStatus(payStatus);
 		int result = orderStateMapper.insertSelective(orderState);
 
 		OrderInfo info = new OrderInfo();
 		info.setTid(tid);
-		info.setStatus(state);
+		info.setPayStatus(payStatus);
+		info.setStatus(orderStatus);
 		int updateResult = orderInfoMapper.updateByPrimaryKeySelective(info);
-		logger.info("{}订单状态变更，当前状态{}.", tid, state);
+		logger.info("{}订单状态变更，当前状态{}.", tid, payStatus);
 		return result + updateResult > 1 ? true : false;
 	}
 
