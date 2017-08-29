@@ -25,14 +25,20 @@ Each application module port
 	front-app      :8088
 
 
-关注公众号，了解项目进展
-    ![image](https://github.com/backkoms/simplemall/blob/develop/getqrcode.jpeg?raw=true)
+![image](https://github.com/backkoms/simplemall/blob/develop/getqrcode.jpeg?raw=true)
 
 # Release Version
+## v2.1 
+	Release Date : 2017-08-29
+    1、引入swagger2，完成API接口文档管理完成整体业务数据流程流转
+    2、通过API接口完成整体业务数据
+    3、基于Spring-cloud-config引入配置中心，结合security加强安全配置，同时引入bus-amqp(rabbitmq)高效更新配置内容[配置中心数据结合sc-cloud-repo工程使用]
+    4、引入feign，满足客户端调用服务端的服务
+    5、引入ribbon，可以满足客户端的负载均衡调用后端服务
+
 ## v1.0 
 	Release Date : 2017-08-17
 	1、完成基本服务及业务子模块服务的搭建 ，业务子模块可正常运行
 	2、完成SpringBootAdmin业务模块的运行监控，及Eureka服务运行，满足各业务基础服务的注册、发现功能
 	3、可通过Front-app端，借助Feign组件发起login/signup等功能的 简单测试运行。
 	下一版本，将基于此版本之上，继续完善完整的购物实现，包括简单的页面、api管理/调用等等。
-
