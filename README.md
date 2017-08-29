@@ -17,7 +17,6 @@ Each application module port
 	admin server :9002
 	eureka server:9003
 	cofig server :9004
-
 	account-service:8080
 	product-service:8081
 	payment-service:8082
@@ -25,5 +24,15 @@ Each application module port
 	msg-service    :8084
 	front-app      :8088
 
-Follow me
+
+关注公众号，了解项目进展
     ![image](https://github.com/backkoms/simplemall/blob/develop/getqrcode.jpeg?raw=true)
+
+# Release Version
+## v1.0 
+	Release Date : 2017-08-17
+	1、完成基本服务及业务子模块服务的搭建 ，业务子模块可正常运行
+	2、完成SpringBootAdmin业务模块的运行监控，及Eureka服务运行，满足各业务基础服务的注册、发现功能
+	3、可通过Front-app端，借助Feign组件发起login/signup等功能的 简单测试运行。
+	下一版本，将基于此版本之上，继续完善完整的购物实现，包括简单的页面、api管理/调用等等。
+
