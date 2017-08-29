@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,8 +48,8 @@ public class APIOrderController {
 	public RestAPIResult<String> createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
 		this.loadBalancerClient.choose(ORDER_SERVICE);// 随机访问策略
 		Map<String, Object> uriVariables = new HashMap<String, Object>();
-		String result = restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create", String.class,
-				uriVariables);
+		// get方式，建议采用post方式传输数据
+		String result = restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create", String.class, uriVariables);
 		if (SystemConstants.Code.SUCCESS.equals(result)) {
 			return new RestAPIResult<String>();
 		}
@@ -67,23 +70,22 @@ public class APIOrderController {
 			@RequestParam(required = true) String accountId) {
 		RestAPIResult<OrderDTO> restAPIResult = new RestAPIResult<>();
 		this.loadBalancerClient.choose(ORDER_SERVICE);
-		Map<String, Object> uriVariables = new HashMap<String, Object>();
-	    uriVariables.put("serialNo", serialNo);
-	    uriVariables.put("accountId", accountId);
-		restAPIResult.setRespData(
-				restTemplate.getForObject(ORDER_SERVICE_URL + "/order/view",
-						OrderDTO.class, uriVariables));
+		MultiValueMap<String, Object> uriVariables = new LinkedMultiValueMap<String, Object>();
+		uriVariables.add("serialNo", serialNo);
+		uriVariables.add("accountId", accountId);
+		// post方式
+		OrderDTO entity = restTemplate.postForObject(ORDER_SERVICE_URL + "/order/view", uriVariables, OrderDTO.class);
+		restAPIResult.setRespData(entity);
 		return restAPIResult;
 	}
 
 	/**
-	 * 订单状态变更
+	 * 订单状态变更，由后端发起变更，前端不建议使用
 	 * 
 	 * @param serialNo
 	 * @param state
 	 * @return
 	 */
-	@ApiOperation(value = "订单状态变更")
 	@RequestMapping(value = "state/change", method = RequestMethod.POST)
 	public RestAPIResult<OrderDTO> stateChange(@RequestParam(required = true) String serialNo,
 			@RequestParam(required = true) String state) {

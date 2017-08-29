@@ -55,7 +55,7 @@ public class OrderController {
 	 * @return
 	 */
 	@RequestMapping(value = "state/change", method = RequestMethod.POST)
-	public Boolean changeOrderState(String serialNo, String state) {
-		return orderService.changeOrderState(serialNo, state);
+	public Boolean changeOrderState(String serialNo, String payStatus,String orderStatus) {
+		return orderService.changeOrderState(serialNo, payStatus,orderStatus);
 	}
 }
