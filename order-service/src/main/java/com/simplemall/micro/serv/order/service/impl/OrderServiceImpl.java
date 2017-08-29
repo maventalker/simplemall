@@ -74,6 +74,7 @@ public class OrderServiceImpl implements IOrderService {
 			state.setStatus("创建订单");
 			orderStateMapper.insertSelective(state);
 			logger.info("订单创建成功，订单号是{}", serialNo);
+			return true;
 		} catch (Exception e) {
 			logger.error("创建订单异常发生，{}", e);
 		}
@@ -92,7 +93,7 @@ public class OrderServiceImpl implements IOrderService {
 			info.setPrice(BigDecimal.valueOf(3400));
 			info.setShippingAccount("Guooo");
 			info.setShippingAddress("Tianxin District,ChangSha,China");
-			info.setShippingPhone("176737388866");
+			info.setShippingPhone("17673738886");
 			orderDTO.setBaseInfo(info);
 			
 			//product info
