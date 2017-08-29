@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,16 +32,16 @@ public class APIProductController {
 	ProductFeignClient feignClient;
 
 	@ApiOperation(value = "获取商品详情")
-	@RequestMapping(value = "{tid}", method = RequestMethod.POST)
-	public RestAPIResult<PrdInfo> getProductById(
-			@ApiParam(value = "product id") @RequestParam(required = true) String prdId) {
+	@RequestMapping(value = "detail/{prdId}", method = RequestMethod.POST)
+	// 必须采用pathvariable的方式引入参数
+	public RestAPIResult<PrdInfo> getProductById(@PathVariable("prdId") String prdId) {
 		RestAPIResult<PrdInfo> restAPIResult = new RestAPIResult<>();
 		logger.info("begin invoke product service");
 		PrdInfo info = feignClient.getPorudctById(prdId);
 		restAPIResult.setRespData(info);
 		return restAPIResult;
 	}
-	
+
 	@ApiOperation(value = "商品列表展示")
 	@RequestMapping(value = "list", method = RequestMethod.POST)
 	public RestAPIResult<List<PrdInfo>> list() {
@@ -49,7 +50,7 @@ public class APIProductController {
 		restAPIResult.setRespData(products);
 		return restAPIResult;
 	}
-	
+
 	/**
 	 * @param prdId
 	 * @return
@@ -61,7 +62,7 @@ public class APIProductController {
 		if (!checkAccountOnLine(session)) {
 			restAPIResult = new RestAPIResult<>("未登陆");
 		}
-		//登陆后，跳转到结算页面，录入收货地址、支付方式、收货方式等等
+		// 登陆后，跳转到结算页面，录入收货地址、支付方式、收货方式等等
 		return restAPIResult;
 	}
 
@@ -71,9 +72,10 @@ public class APIProductController {
 	 * @param request
 	 * @return
 	 */
+	// FIXME 安全验证待完善
 	private boolean checkAccountOnLine(HttpSession session) {
-//		if (session.getAttribute(WebSecurityConfig.SESSION_KEY) != null)
-//            return true;
+		// if (session.getAttribute(WebSecurityConfig.SESSION_KEY) != null)
+		// return true;
 		return false;
 	}
 

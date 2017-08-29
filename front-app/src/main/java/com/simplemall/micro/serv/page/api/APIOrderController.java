@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.common.bean.order.OrderDTO;
+import com.simplemall.micro.serv.common.constant.SystemConstants;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,11 +42,15 @@ public class APIOrderController {
 	 */
 	@ApiOperation(value = "创建订单")
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
+	public RestAPIResult<String> createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
 		this.loadBalancerClient.choose(ORDER_SERVICE);// 随机访问策略
 		Map<String, Object> uriVariables = new HashMap<String, Object>();
-		return restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create", String.class,
+		String result = restTemplate.getForObject(ORDER_SERVICE_URL + "/order/create", String.class,
 				uriVariables);
+		if (SystemConstants.Code.SUCCESS.equals(result)) {
+			return new RestAPIResult<String>();
+		}
+		return new RestAPIResult<String>("订单创建失败！");
 
 	}
 
