@@ -1,4 +1,4 @@
-# 项目简介
+# QuickStart
 基于SpringCloud体系实现，简单购物流程实现，满足基本功能：注册、登录、商品列表展示、商品详情展示、订单创建、详情查看、订单支付、库存更新等等。
 
 每个业务服务采用独立的MYSQL数据库，初期考虑用到如下组件：
@@ -16,7 +16,7 @@
 12. 服务监控:spring-boot-admin
 
 
-# 模块介绍
+# 各模块介绍
 
 | 模块名称        | 端口   |  简介  |
 | --------   | -----:  | :----:  |
@@ -37,6 +37,7 @@
 - 1、先启动admin-server,eureka-server,conf-server三个基础服务
 - 2、再依次启动payment/order/product/account基础业务服务
 - 3、最后启动front-app服务，打开浏览器，输入http://localhost:8088/swagger-ui.html ，根据流程API依次可使用功能
+- 4、后续有时间再提供页面，基于VUE2+BOOTSTRAP，将流程串起来
 
 
 ## Release Version
