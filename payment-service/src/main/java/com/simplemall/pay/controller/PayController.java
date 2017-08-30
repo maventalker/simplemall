@@ -26,7 +26,7 @@ public class PayController {
 	 */
 	@RequestMapping(value = "pay", method = RequestMethod.POST)
 	public Integer pay(@RequestParam(value = "serialNo") String serialNo, @RequestParam(value = "payType") String payType,
-			@RequestParam(value = "price") BigDecimal price) {
+			@RequestParam(value = "price") BigDecimal price,String jwtToken) {
 		int result = payService.pay(serialNo, payType, price);
 		return result;
 	}
