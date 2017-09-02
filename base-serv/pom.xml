@@ -14,5 +14,6 @@
   	<module>zuul-server</module>
   	<module>sleuth-server</module>
   	<module>admin-server</module>
+  	<module>oauth-server</module>
   </modules>
 </project>
