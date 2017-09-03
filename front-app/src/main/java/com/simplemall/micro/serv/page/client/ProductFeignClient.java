@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simplemall.micro.serv.common.bean.product.PrdInfo;
+import com.simplemall.micro.serv.page.client.hystrix.ProductFeignClientHystrix;
 
 /**
  * get product detail info
@@ -16,7 +17,7 @@ import com.simplemall.micro.serv.common.bean.product.PrdInfo;
  * @author guooo
  *
  */
-@FeignClient(name = "PRODUCT-SERVICE")
+@FeignClient(name = "PRODUCT-SERVICE",fallback = ProductFeignClientHystrix.class)
 public interface ProductFeignClient {
 
 	@RequestMapping(value = "/prd/{prdId}",method = RequestMethod.POST)

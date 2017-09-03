@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "ORDER-SERVICE")
+import com.simplemall.micro.serv.page.client.hystrix.OrderFeignClientHystrix;
+
+@FeignClient(name = "ORDER-SERVICE" ,fallback = OrderFeignClientHystrix.class)
 public interface OrderFeignClient {
 
 	/**
