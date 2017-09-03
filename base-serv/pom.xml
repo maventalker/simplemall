@@ -14,5 +14,7 @@
   	<module>zuul-server</module>
   	<module>sleuth-server</module>
   	<module>admin-server</module>
+  	<module>hystrix-dashboard</module>
+  	<module>turbine-server</module>
   </modules>
 </project>
