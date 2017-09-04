@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.24 (32 bit)
 MySQL - 5.7.13 : Database - micro_payment
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -22,7 +23,7 @@ DROP TABLE IF EXISTS `tb_pay_record`;
 
 CREATE TABLE `tb_pay_record` (
   `tid` varchar(32) NOT NULL,
-  `serial_no` varchar(16) DEFAULT NULL COMMENT '流水号',
+  `serial_no` varchar(32) DEFAULT NULL COMMENT '流水号',
   `type` char(10) DEFAULT NULL COMMENT '支付方式,Alipay|Wechat|Card',
   `status` varchar(30) DEFAULT NULL COMMENT '支付状态',
   `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
