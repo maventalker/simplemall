@@ -1,23 +1,17 @@
-package com.simplemall.account;
+package com.simplemall.micro.serv.base.turbine;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.cloud.netflix.turbine.EnableTurbine;
 
-/**
- * 启动类
- * 
- * @author guooo
- *
- */
 @SpringBootApplication
+@EnableTurbine
 @EnableDiscoveryClient
-@EnableHystrix
-public class AccountServApplication {
+public class TurbineApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AccountServApplication.class, args);
+		SpringApplication.run(TurbineApplication.class, args);
 	}
 
 }

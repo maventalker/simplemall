@@ -43,7 +43,7 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "view", method = RequestMethod.POST)
 	public OrderDTO viewOrder(@RequestParam(required = true) String serialNo,
-			@RequestParam(required = true) String accountId) {
+			@RequestParam(required = true) String accountId,String jwtToken) {
 		return orderService.view(serialNo, accountId);
 	}
 

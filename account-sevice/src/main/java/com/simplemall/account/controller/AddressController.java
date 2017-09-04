@@ -19,7 +19,7 @@ public class AddressController {
 	IAccountService accountService;
 
 	@RequestMapping("list/{accountTid}")
-	public List<AccAddress> getList(@RequestParam(required = true) @PathVariable("accountTid") String accountTid) {
+	public List<AccAddress> getList(@RequestParam(required = true) @PathVariable("accountTid") String accountTid,String jwtToken) {
 		List<AccAddress> list = accountService.getAddressList(accountTid);
 		return list;
 	}
