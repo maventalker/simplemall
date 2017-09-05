@@ -19,7 +19,9 @@ import org.springframework.web.client.RestTemplate;
 import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.common.bean.account.AccAddress;
 import com.simplemall.micro.serv.common.constant.SystemConstants;
+import com.simplemall.micro.serv.common.util.UUIDUtils;
 import com.simplemall.micro.serv.page.client.AccountFeignClient;
+import com.simplemall.micro.serv.page.security.JWTUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +35,7 @@ import io.swagger.annotations.ApiParam;
  */
 @Api(value = "用户服务", tags = "用户服务接口")
 @RestController
-@RefreshScope //使用该注解的类，会在接到SpringCloud配置中心配置刷新的时候，自动将新的配置更新到该类对应的字段中。需要重新触发加载动作可以使用POST方式请求/refresh接口，该接口位于spring-boot-starter-actuator依赖，调用前需添加否则404。
+@RefreshScope // 使用该注解的类，会在接到SpringCloud配置中心配置刷新的时候，自动将新的配置更新到该类对应的字段中。需要重新触发加载动作可以使用POST方式请求/refresh接口，该接口位于spring-boot-starter-actuator依赖，调用前需添加否则404。
 public class APIAccountController {
 
 	private Logger logger = LoggerFactory.getLogger(APIAccountController.class);
@@ -47,9 +49,6 @@ public class APIAccountController {
 	@Autowired
 	private AccountFeignClient accountFeignClient;
 
-	@Autowired
-	private RestTemplate restTemplate;
-
 	@ApiOperation(value = "用户登陆")
 	@RequestMapping(value = "acc/login", method = { RequestMethod.POST })
 	public RestAPIResult<String> login(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
@@ -58,10 +57,16 @@ public class APIAccountController {
 		String result = accountFeignClient.login(phone, password);
 		if (SystemConstants.Code.FAIL.equals(result)) {
 			restAPIResult = new RestAPIResult<>("登陆失败，用户名或密码不正确!");
+			restAPIResult.setRespData(result);
 		} else {
-			// session.setAttribute(WebSecurityConfig.SESSION_KEY, phone);
+			try {
+				// 正常情况返回jwt
+				String accessToken = JWTUtils.createJWT(UUIDUtils.getUUID(), phone, 12 * 60 * 60 * 1000);
+				restAPIResult.setRespData(accessToken);
+			} catch (Exception e) {
+				logger.error("生成jwt异常{}", e);
+			}
 		}
-		restAPIResult.setRespData(result);
 		logger.info("login result = {}", restAPIResult.getRespData());
 		return restAPIResult;
 	}
@@ -79,7 +84,7 @@ public class APIAccountController {
 		String rtn = accountFeignClient.signup(phone, password);
 		if (SystemConstants.Code.FAIL.equals(rtn)) {
 			restAPIResult = new RestAPIResult<>("注册失败，用户名已存在!");
-		}else {
+		} else {
 			if (switchSMS) {
 				logger.info("开始发送注册成功短信！");
 			}
@@ -97,7 +102,7 @@ public class APIAccountController {
 	 */
 	@ApiOperation(value = "获取用户地址列表")
 	@RequestMapping(value = "address/list/{accountTid}", method = RequestMethod.POST)
-	public RestAPIResult<List<AccAddress>> queryAccAddress(@PathVariable("accountTid") String accountTid) {
+	public RestAPIResult<List<AccAddress>> queryAccAddress(@PathVariable("accountTid") String accountTid,String accessToken) {
 		RestAPIResult<List<AccAddress>> apiResult = new RestAPIResult<>();
 		List<AccAddress> liString = accountFeignClient.getList(accountTid);
 		apiResult.setRespData(liString);

@@ -1,8 +1,6 @@
 package com.simplemall.micro.serv.page.api;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -40,7 +38,7 @@ public class APIPayMentController {
 	@ApiOperation(value = "支付")
 	@RequestMapping(value = "pay", method = RequestMethod.POST)
 	public RestAPIResult<Boolean> pay(@RequestParam("serialNo") String serialNo,
-			@RequestParam("payType") String payType, @RequestParam("price") BigDecimal price) {
+			@RequestParam("payType") String payType, @RequestParam("price") BigDecimal price,String accessToken) {
 		// this.loadBalancerClient.choose(PAY_SERVICE);
 		// FIXME 调用两个服务时，如何平衡???
 		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
