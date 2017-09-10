@@ -5,9 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.spi.LoggerFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -26,6 +28,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Component
 public class APISecurityCheck {
 
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
+
 	/**
 	 * 客户端给出的签名字段
 	 */
@@ -35,17 +39,17 @@ public class APISecurityCheck {
 	 * 前置通知：所有接口在执行业务之前，需要先进行参数合法性校验 执行顺序为1
 	 * 
 	 * @param joinPoint
-	 * @throws Exception 
+	 * @throws Exception
 	 * @throws BusinessException
 	 */
-	@Before("execution(public * com.zhishi.rest.api.*.* (..))")
+	@Before("execution(public * com.simplemall.micro.serv.page.api.*.* (..))")
 	public void doBeforeInService(JoinPoint joinPoint) throws Exception {
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		ServletRequestAttributes sra = (ServletRequestAttributes) ra;
 		HttpServletRequest request = sra.getRequest();
 		// 需要过滤URI的请求，有些不需要token的地方直接跳过不再校验
 		String requestPath = request.getRequestURI(); // 请求的URL
-
+		logger.info("request path = " + requestPath);
 		Map<String, String[]> inputParamMap = request.getParameterMap();
 		Iterator<String> keyIter = inputParamMap.keySet().iterator();
 		while (keyIter.hasNext()) {
