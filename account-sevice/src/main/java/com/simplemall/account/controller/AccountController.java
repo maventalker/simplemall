@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.simplemall.account.service.IAccountService;
+import com.simplemall.micro.serv.common.bean.account.Account;
 import com.simplemall.micro.serv.common.constant.SystemConstants;
 
 /**
@@ -30,9 +31,9 @@ public class AccountController {
 	 * @return
 	 */
 	@RequestMapping(value = "login", method = {RequestMethod.GET,RequestMethod.POST})
-	public String login(@RequestParam("phone") String phone, @RequestParam("password") String password) {
-		boolean result = accountService.login(phone, password);
-		return result ? SystemConstants.Code.SUCCESS : SystemConstants.Code.FAIL;
+	public Account login(@RequestParam("phone") String phone, @RequestParam("password") String password) {
+		Account result = accountService.login(phone, password);
+		return result;
 	}
 
 	/**

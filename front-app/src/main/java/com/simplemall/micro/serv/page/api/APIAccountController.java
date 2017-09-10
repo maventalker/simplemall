@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSONObject;
 import com.simplemall.micro.serv.common.bean.RestAPIResult;
 import com.simplemall.micro.serv.common.bean.account.AccAddress;
+import com.simplemall.micro.serv.common.bean.account.Account;
 import com.simplemall.micro.serv.common.constant.SystemConstants;
+import com.simplemall.micro.serv.common.service.JedisUtil;
 import com.simplemall.micro.serv.common.util.UUIDUtils;
 import com.simplemall.micro.serv.page.client.AccountFeignClient;
 import com.simplemall.micro.serv.page.security.JWTUtils;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -54,14 +58,15 @@ public class APIAccountController {
 	public RestAPIResult<String> login(@ApiParam(value = "手机号") @RequestParam(required = true) String phone,
 			@ApiParam(value = "密码") @RequestParam(required = true) String password, HttpSession session) {
 		RestAPIResult<String> restAPIResult = new RestAPIResult<>();
-		String result = accountFeignClient.login(phone, password);
-		if (SystemConstants.Code.FAIL.equals(result)) {
+		Account account = accountFeignClient.login(phone, password);
+		if (StringUtils.isEmpty(account.getTid())) {
 			restAPIResult = new RestAPIResult<>("登陆失败，用户名或密码不正确!");
-			restAPIResult.setRespData(result);
 		} else {
 			try {
 				// 正常情况返回jwt
-				String accessToken = JWTUtils.createJWT(UUIDUtils.getUUID(), phone, 12 * 60 * 60 * 1000);
+				JSONObject subject = new JSONObject(true);
+				subject.put("tid", account.getTid());
+				String accessToken = JWTUtils.createJWT(UUIDUtils.getUUID(), subject.toJSONString(), 12 * 60 * 60 * 1000);
 				restAPIResult.setRespData(accessToken);
 			} catch (Exception e) {
 				logger.error("生成jwt异常{}", e);
@@ -107,5 +112,24 @@ public class APIAccountController {
 		List<AccAddress> liString = accountFeignClient.getList(accountTid);
 		apiResult.setRespData(liString);
 		return apiResult;
+	}
+	
+	
+	/**
+	 * query account's address list
+	 * 
+	 * @param accountTid
+	 * @return
+	 */
+	@ApiOperation(value = "获取用户地址列表")
+	@RequestMapping(value = "acc/logout", method = RequestMethod.POST)
+	public RestAPIResult<Boolean> logout(@PathVariable("accountTid") String accountTid,String accessToken) {
+		//将用户的accessToken写入缓存，并给于失效日期，用户退出后，再以此token请求即为无效请求
+		//解析出失效时间，写入缓存
+		Claims claims = JWTUtils.parseJWT(accessToken);
+		long terminal = claims.getExpiration().getTime();
+		JedisUtil.getInstance().KEYS.expireAt(accessToken, terminal);
+		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
+		return restAPIResult;
 	}
 }

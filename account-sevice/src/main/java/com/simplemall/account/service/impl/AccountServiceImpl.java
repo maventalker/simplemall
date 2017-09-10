@@ -33,12 +33,12 @@ public class AccountServiceImpl implements IAccountService {
 	}
 
 	@Override
-	public boolean login(String phone, String password) {
+	public Account login(String phone, String password) {
 		AccountCriteria criteria = new AccountCriteria();
 		criteria.createCriteria().andPhoneEqualTo(phone).andPasswordEqualTo(password);
 		List<Account> list = accountMapper.selectByExample(criteria);
 		logger.info("{}登陆成功!",phone);
-		return CollectionUtils.isNotEmpty(list);
+		return CollectionUtils.isNotEmpty(list)?list.get(0):new Account();
 	}
 
 	@Override

@@ -8,6 +8,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.simplemall.micro.serv.common.util.UUIDUtils;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
@@ -92,4 +94,14 @@ public class JWTUtils {
 		return claims;
 	}
 
+	public static void main(String[] args) {
+		try {
+			String token = createJWT(UUIDUtils.getUUID(), "", 20000);
+			System.out.println(token);
+			Claims claims = parseJWT(token);
+			System.out.println(claims.getExpiration()+"///"+claims.getExpiration().getTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
