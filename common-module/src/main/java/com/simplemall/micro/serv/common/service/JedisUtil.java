@@ -1,11 +1,9 @@
 package com.simplemall.micro.serv.common.service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
 
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.Jedis;
@@ -16,36 +14,37 @@ import redis.clients.jedis.SortingParams;
 import redis.clients.util.SafeEncoder;
 
 /**
- * @author Mr.hu
- * @version crateTime：2013-10-30 下午5:41:30 Class Explain:JedisUtil
+ * @author Mr.Ma
+ * @version crateTime：2015-08-11 Class Explain:JedisUtil
  */
 public class JedisUtil {
 
 	private static final JedisUtil redis = new JedisUtil();
-	
-	private Logger log = Logger.getLogger(this.getClass());
 
 	/**
 	 * 缓存生存时间
 	 */
 	private final int expire = 60000;
 	/** 操作Key的方法 */
-	public Keys KEYS;
+	public static JedisUtil.Keys KEYS = new JedisUtil().new Keys();
 	/** 对存储结构为String类型的操作 */
-	public Strings STRINGS;
+	public static JedisUtil.Strings STRINGS = new JedisUtil().new Strings();
 	/** 对存储结构为List类型的操作 */
-	public Lists LISTS;
+	public static JedisUtil.Lists LISTS = new JedisUtil().new Lists();
 	/** 对存储结构为Set类型的操作 */
-	public Sets SETS;
+	public static JedisUtil.Sets SETS = new JedisUtil().new Sets();
 	/** 对存储结构为HashMap类型的操作 */
-	public Hash HASH;
+	public static JedisUtil.Hash HASH = new JedisUtil().new Hash();
 	/** 对存储结构为Set(排序的)类型的操作 */
-	public SortSet SORTSET;
-	private static JedisPool jedisPool = null;
+	public static JedisUtil.SortSet SORTSET = new JedisUtil().new SortSet();
+	private static JedisPool jedisPool;
 	private ShardedJedisPool shardedJedisPool = null;
 
 	private JedisUtil() {
+	}
 
+	{
+		init();
 	}
 
 	/**
@@ -56,16 +55,14 @@ public class JedisUtil {
 	 * @return JedisPool
 	 */
 	public static void init() {
-		ResourceBundle bundle = ResourceBundle.getBundle("redis");
-		if (bundle == null) {
-			throw new IllegalArgumentException("[redis.properties] is not found!");
-		}
 		if (jedisPool == null) {
 			JedisPoolConfig config = new JedisPoolConfig();
-			config.setMaxIdle(JRedisPoolConfig.MAX_IDLE);
-			config.setTestOnBorrow(JRedisPoolConfig.TEST_ON_BORROW);
-			config.setTestOnReturn(JRedisPoolConfig.TEST_ON_RETURN);
-			jedisPool = new JedisPool(config, JRedisPoolConfig.REDIS_IP, JRedisPoolConfig.REDIS_PORT);
+			config.setMaxTotal(RedisConfig.MAX_ACTIVE);
+			config.setMaxIdle(RedisConfig.MAX_IDLE);
+			config.setMaxWaitMillis(RedisConfig.MAX_WAIT);
+			config.setTestOnBorrow(RedisConfig.TEST_ON_BORROW);
+			config.setTestOnReturn(RedisConfig.TEST_ON_RETURN);
+			jedisPool = new JedisPool(config, RedisConfig.REDIS_IP, RedisConfig.PORT, 2000, RedisConfig.AUTH);
 		}
 	}
 
@@ -87,6 +84,16 @@ public class JedisUtil {
 	}
 
 	/**
+	 * @param 选择指定DB
+	 * @return
+	 */
+	public Jedis getJedis(int DBindex) {
+		Jedis jedis = jedisPool.getResource();
+		jedis.select(DBindex);
+		return jedis;
+	}
+
+	/**
 	 * 获取JedisUtil实例
 	 * 
 	 * @return
@@ -101,7 +108,8 @@ public class JedisUtil {
 	 * @param jedis
 	 */
 	public void returnJedis(Jedis jedis) {
-		jedisPool.returnResource(jedis);
+		// jedisPool.returnResource(jedis);
+		jedis.close();
 	}
 
 	/**
@@ -116,6 +124,15 @@ public class JedisUtil {
 			return;
 		}
 		Jedis jedis = getJedis();
+		jedis.expire(key, seconds);
+		returnJedis(jedis);
+	}
+
+	public void expire(String key, int seconds, int DBindex) {
+		if (seconds <= 0) {
+			return;
+		}
+		Jedis jedis = getJedis(DBindex);
 		jedis.expire(key, seconds);
 		returnJedis(jedis);
 	}
@@ -204,6 +221,13 @@ public class JedisUtil {
 			return count;
 		}
 
+		public long expired(String key, int seconds, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long count = jedis.expire(key, seconds);
+			returnJedis(jedis);
+			return count;
+		}
+
 		/**
 		 * 设置key的过期时间,它是距历元（即格林威治标准时间 1970 年 1 月 1 日的 00:00:00，格里高利历）的偏移量。
 		 *
@@ -262,6 +286,13 @@ public class JedisUtil {
 			return count;
 		}
 
+		public long del(int DBindex, String... keys) {
+			Jedis jedis = getJedis(DBindex);
+			long count = jedis.del(keys);
+			returnJedis(jedis);
+			return count;
+		}
+
 		/**
 		 * 删除keys对应的记录,可以是多个key
 		 *
@@ -286,6 +317,14 @@ public class JedisUtil {
 		public boolean exists(String key) {
 			// ShardedJedis sjedis = getShardedJedis();
 			Jedis sjedis = getJedis();
+			boolean exis = sjedis.exists(key);
+			returnJedis(sjedis);
+			return exis;
+		}
+
+		public boolean exists(String key, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
 			boolean exis = sjedis.exists(key);
 			returnJedis(sjedis);
 			return exis;
@@ -371,8 +410,22 @@ public class JedisUtil {
 			return s;
 		}
 
+		public long sadd(String key, String member, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long s = jedis.sadd(key, member);
+			returnJedis(jedis);
+			return s;
+		}
+
 		public long sadd(byte[] key, byte[] member) {
 			Jedis jedis = getJedis();
+			long s = jedis.sadd(key, member);
+			returnJedis(jedis);
+			return s;
+		}
+
+		public long sadd(byte[] key, byte[] member, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			long s = jedis.sadd(key, member);
 			returnJedis(jedis);
 			return s;
@@ -393,6 +446,14 @@ public class JedisUtil {
 			return len;
 		}
 
+		public long scard(String key, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
+			long len = sjedis.scard(key);
+			returnJedis(sjedis);
+			return len;
+		}
+
 		/**
 		 * 返回从第一组和所有的给定集合之间的差异的成员
 		 *
@@ -407,6 +468,13 @@ public class JedisUtil {
 			return set;
 		}
 
+		public Set<String> sdiff(int DBindex, String... keys) {
+			Jedis jedis = getJedis(DBindex);
+			Set<String> set = jedis.sdiff(keys);
+			returnJedis(jedis);
+			return set;
+		}
+
 		/**
 		 * 这个命令等于sdiff,但返回的不是结果集,而是将结果集存储在新的集合中，如果目标已存在，则覆盖。
 		 *
@@ -416,6 +484,13 @@ public class JedisUtil {
 		 *            ... keys 比较的集合
 		 * @return 新集合中的记录数
 		 **/
+		public long sdiffstore(int DBindex, String newkey, String... keys) {
+			Jedis jedis = getJedis(DBindex);
+			long s = jedis.sdiffstore(newkey, keys);
+			returnJedis(jedis);
+			return s;
+		}
+
 		public long sdiffstore(String newkey, String... keys) {
 			Jedis jedis = getJedis();
 			long s = jedis.sdiffstore(newkey, keys);
@@ -437,6 +512,13 @@ public class JedisUtil {
 			return set;
 		}
 
+		public Set<String> sinter(int DBindex, String... keys) {
+			Jedis jedis = getJedis(DBindex);
+			Set<String> set = jedis.sinter(keys);
+			returnJedis(jedis);
+			return set;
+		}
+
 		/**
 		 * 这个命令等于sinter,但返回的不是结果集,而是将结果集存储在新的集合中，如果目标已存在，则覆盖。
 		 *
@@ -448,6 +530,13 @@ public class JedisUtil {
 		 **/
 		public long sinterstore(String newkey, String... keys) {
 			Jedis jedis = getJedis();
+			long s = jedis.sinterstore(newkey, keys);
+			returnJedis(jedis);
+			return s;
+		}
+
+		public long sinterstore(int DBindex, String newkey, String... keys) {
+			Jedis jedis = getJedis(DBindex);
 			long s = jedis.sinterstore(newkey, keys);
 			returnJedis(jedis);
 			return s;
@@ -470,6 +559,14 @@ public class JedisUtil {
 			return s;
 		}
 
+		public boolean sismember(int DBindex, String key, String member) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
+			boolean s = sjedis.sismember(key, member);
+			returnJedis(sjedis);
+			return s;
+		}
+
 		/**
 		 * 返回集合中的所有成员
 		 *
@@ -485,9 +582,25 @@ public class JedisUtil {
 			return set;
 		}
 
+		public Set<String> smembers(String key, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
+			Set<String> set = sjedis.smembers(key);
+			returnJedis(sjedis);
+			return set;
+		}
+
 		public Set<byte[]> smembers(byte[] key) {
 			// ShardedJedis sjedis = getShardedJedis();
 			Jedis sjedis = getJedis();
+			Set<byte[]> set = sjedis.smembers(key);
+			returnJedis(sjedis);
+			return set;
+		}
+
+		public Set<byte[]> smembers(byte[] key, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
 			Set<byte[]> set = sjedis.smembers(key);
 			returnJedis(sjedis);
 			return set;
@@ -513,6 +626,13 @@ public class JedisUtil {
 			return s;
 		}
 
+		public long smove(String srckey, String dstkey, String member, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long s = jedis.smove(srckey, dstkey, member);
+			returnJedis(jedis);
+			return s;
+		}
+
 		/**
 		 * 从集合中删除成员
 		 *
@@ -522,6 +642,13 @@ public class JedisUtil {
 		 */
 		public String spop(String key) {
 			Jedis jedis = getJedis();
+			String s = jedis.spop(key);
+			returnJedis(jedis);
+			return s;
+		}
+
+		public String spop(String key, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			String s = jedis.spop(key);
 			returnJedis(jedis);
 			return s;
@@ -543,6 +670,13 @@ public class JedisUtil {
 			return s;
 		}
 
+		public long srem(String key, String member, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long s = jedis.srem(key, member);
+			returnJedis(jedis);
+			return s;
+		}
+
 		/**
 		 * 合并多个集合并返回合并后的结果，合并后的结果集合并不保存<br/>
 		 *
@@ -558,6 +692,13 @@ public class JedisUtil {
 			return set;
 		}
 
+		public Set<String> sunion(int DBindex, String... keys) {
+			Jedis jedis = getJedis(DBindex);
+			Set<String> set = jedis.sunion(keys);
+			returnJedis(jedis);
+			return set;
+		}
+
 		/**
 		 * 合并多个集合并将合并后的结果集保存在指定的新集合中，如果新集合已经存在则覆盖
 		 *
@@ -568,6 +709,13 @@ public class JedisUtil {
 		 **/
 		public long sunionstore(String newkey, String... keys) {
 			Jedis jedis = getJedis();
+			long s = jedis.sunionstore(newkey, keys);
+			returnJedis(jedis);
+			return s;
+		}
+
+		public long sunionstore(int DBindex, String newkey, String... keys) {
+			Jedis jedis = getJedis(DBindex);
 			long s = jedis.sunionstore(newkey, keys);
 			returnJedis(jedis);
 			return s;
@@ -1108,6 +1256,13 @@ public class JedisUtil {
 			return value;
 		}
 
+		public String get(String key, int DBindex) {
+			Jedis sjedis = getJedis(DBindex);
+			String value = sjedis.get(key);
+			returnJedis(sjedis);
+			return value;
+		}
+
 		/**
 		 * 根据key获取记录
 		 * 
@@ -1123,6 +1278,35 @@ public class JedisUtil {
 			return value;
 		}
 
+		public byte[] get(byte[] key, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
+			byte[] value = sjedis.get(key);
+			returnJedis(sjedis);
+			return value;
+		}
+
+		/**
+		 * 返回反序列化的对象
+		 */
+		public Object getObject(byte[] key) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis();
+			byte[] value = sjedis.get(key);
+			Object o = SerializeUtil.unserialize(value);
+			returnJedis(sjedis);
+			return o;
+		}
+
+		public Object getObject(byte[] key, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
+			byte[] value = sjedis.get(key);
+			Object o = SerializeUtil.unserialize(value);
+			returnJedis(sjedis);
+			return o;
+		}
+
 		/**
 		 * 添加有过期时间的记录
 		 *
@@ -1136,6 +1320,13 @@ public class JedisUtil {
 		 */
 		public String setEx(String key, int seconds, String value) {
 			Jedis jedis = getJedis();
+			String str = jedis.setex(key, seconds, value);
+			returnJedis(jedis);
+			return str;
+		}
+
+		public String setEx(String key, int seconds, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			String str = jedis.setex(key, seconds, value);
 			returnJedis(jedis);
 			return str;
@@ -1159,6 +1350,13 @@ public class JedisUtil {
 			return str;
 		}
 
+		public String setEx(byte[] key, int seconds, byte[] value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			String str = jedis.setex(key, seconds, value);
+			returnJedis(jedis);
+			return str;
+		}
+
 		/**
 		 * 添加一条记录，仅当给定的key不存在时才插入
 		 * 
@@ -1175,6 +1373,24 @@ public class JedisUtil {
 			return str;
 		}
 
+		public long setnx(String key, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long str = jedis.setnx(key, value);
+			returnJedis(jedis);
+			return str;
+		}
+
+		/**
+		 * 添加一条序列化对象的记录
+		 */
+		public <T extends Serializable> String setObject(String key, T value) {
+			return set(SafeEncoder.encode(key), SerializeUtil.serialize(value));
+		}
+
+		public <T extends Serializable> String setObject(String key, T value, int DBindex) {
+			return set(SafeEncoder.encode(key), SerializeUtil.serialize(value), DBindex);
+		}
+
 		/**
 		 * 添加记录,如果记录已存在将覆盖原有的value
 		 * 
@@ -1186,6 +1402,10 @@ public class JedisUtil {
 		 */
 		public String set(String key, String value) {
 			return set(SafeEncoder.encode(key), SafeEncoder.encode(value));
+		}
+
+		public String set(String key, String value, int DBindex) {
+			return set(SafeEncoder.encode(key), SafeEncoder.encode(value), DBindex);
 		}
 
 		/**
@@ -1201,6 +1421,10 @@ public class JedisUtil {
 			return set(SafeEncoder.encode(key), value);
 		}
 
+		public String set(String key, byte[] value, int DBindex) {
+			return set(SafeEncoder.encode(key), value, DBindex);
+		}
+
 		/**
 		 * 添加记录,如果记录已存在将覆盖原有的value
 		 * 
@@ -1212,6 +1436,13 @@ public class JedisUtil {
 		 */
 		public String set(byte[] key, byte[] value) {
 			Jedis jedis = getJedis();
+			String status = jedis.set(key, value);
+			returnJedis(jedis);
+			return status;
+		}
+
+		public String set(byte[] key, byte[] value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			String status = jedis.set(key, value);
 			returnJedis(jedis);
 			return status;
@@ -1237,6 +1468,13 @@ public class JedisUtil {
 			return len;
 		}
 
+		public long setRange(String key, long offset, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long len = jedis.setrange(key, offset, value);
+			returnJedis(jedis);
+			return len;
+		}
+
 		/**
 		 * 在指定的key中追加value
 		 * 
@@ -1248,6 +1486,13 @@ public class JedisUtil {
 		 **/
 		public long append(String key, String value) {
 			Jedis jedis = getJedis();
+			long len = jedis.append(key, value);
+			returnJedis(jedis);
+			return len;
+		}
+
+		public long append(String key, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			long len = jedis.append(key, value);
 			returnJedis(jedis);
 			return len;
@@ -1269,6 +1514,13 @@ public class JedisUtil {
 			return len;
 		}
 
+		public long decrBy(String key, long number, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long len = jedis.decrBy(key, number);
+			returnJedis(jedis);
+			return len;
+		}
+
 		/**
 		 * <b>可以作为获取唯一id的方法</b><br/>
 		 * 将key对应的value加上指定的值，只有value可以转为数字时该方法才可用
@@ -1281,6 +1533,13 @@ public class JedisUtil {
 		 */
 		public long incrBy(String key, long number) {
 			Jedis jedis = getJedis();
+			long len = jedis.incrBy(key, number);
+			returnJedis(jedis);
+			return len;
+		}
+
+		public long incrBy(String key, long number, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			long len = jedis.incrBy(key, number);
 			returnJedis(jedis);
 			return len;
@@ -1305,6 +1564,13 @@ public class JedisUtil {
 			return value;
 		}
 
+		public String getrange(String key, long startOffset, long endOffset, int DBindex) {
+			Jedis sjedis = getJedis(DBindex);
+			String value = sjedis.getrange(key, startOffset, endOffset);
+			returnJedis(sjedis);
+			return value;
+		}
+
 		/**
 		 * 获取并设置指定key对应的value<br/>
 		 * 如果key存在返回之前的value,否则返回null
@@ -1317,6 +1583,13 @@ public class JedisUtil {
 		 */
 		public String getSet(String key, String value) {
 			Jedis jedis = getJedis();
+			String str = jedis.getSet(key, value);
+			returnJedis(jedis);
+			return str;
+		}
+
+		public String getSet(String key, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			String str = jedis.getSet(key, value);
 			returnJedis(jedis);
 			return str;
@@ -1336,6 +1609,13 @@ public class JedisUtil {
 			return str;
 		}
 
+		public List<String> mget(int DBindex, String... keys) {
+			Jedis jedis = getJedis(DBindex);
+			List<String> str = jedis.mget(keys);
+			returnJedis(jedis);
+			return str;
+		}
+
 		/**
 		 * 批量存储记录
 		 * 
@@ -1350,6 +1630,13 @@ public class JedisUtil {
 			return str;
 		}
 
+		public String mset(int DBindex, String... keysvalues) {
+			Jedis jedis = getJedis(DBindex);
+			String str = jedis.mset(keysvalues);
+			returnJedis(jedis);
+			return str;
+		}
+
 		/**
 		 * 获取key对应的值的长度
 		 * 
@@ -1359,6 +1646,13 @@ public class JedisUtil {
 		 */
 		public long strlen(String key) {
 			Jedis jedis = getJedis();
+			long len = jedis.strlen(key);
+			returnJedis(jedis);
+			return len;
+		}
+
+		public long strlen(String key, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
 			long len = jedis.strlen(key);
 			returnJedis(jedis);
 			return len;
@@ -1560,6 +1854,38 @@ public class JedisUtil {
 		}
 
 		/**
+		 * 向List头部追加记录，带数据库
+		 * 
+		 * @param String
+		 *            key
+		 * @param String
+		 *            value
+		 * @return 记录总数
+		 */
+		public long rpush(String key, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long count = jedis.rpush(key, value);
+			returnJedis(jedis);
+			return count;
+		}
+
+		/**
+		 * 向List尾部追加记录，带数据库
+		 * 
+		 * @param String
+		 *            key
+		 * @param String
+		 *            value
+		 * @return 记录总数
+		 */
+		public long lpush(String key, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long count = jedis.lpush(SafeEncoder.encode(key), SafeEncoder.encode(value));
+			returnJedis(jedis);
+			return count;
+		}
+
+		/**
 		 * 向List头部追加记录
 		 * 
 		 * @param String
@@ -1605,6 +1931,25 @@ public class JedisUtil {
 		public List<String> lrange(String key, long start, long end) {
 			// ShardedJedis sjedis = getShardedJedis();
 			Jedis sjedis = getJedis();
+			List<String> list = sjedis.lrange(key, start, end);
+			returnJedis(sjedis);
+			return list;
+		}
+
+		/**
+		 * 获取指定范围的记录，可以做为分页使用
+		 * 
+		 * @param String
+		 *            key
+		 * @param long
+		 *            start
+		 * @param long
+		 *            end
+		 * @return List
+		 */
+		public List<String> lrange(String key, long start, long end, int DBindex) {
+			// ShardedJedis sjedis = getShardedJedis();
+			Jedis sjedis = getJedis(DBindex);
 			List<String> list = sjedis.lrange(key, start, end);
 			returnJedis(sjedis);
 			return list;
@@ -1660,6 +2005,24 @@ public class JedisUtil {
 		 */
 		public long lrem(String key, int c, String value) {
 			return lrem(SafeEncoder.encode(key), c, SafeEncoder.encode(value));
+		}
+
+		/**
+		 * 删除List中c条记录，被删除的记录值为value,带数据库编号
+		 * 
+		 * @param String
+		 *            key
+		 * @param int
+		 *            c 要删除的数量，如果为负数则从List的尾部检查并删除符合的记录
+		 * @param String
+		 *            value 要匹配的值
+		 * @return 删除后的List中的记录数
+		 */
+		public long lrem(String key, int c, String value, int DBindex) {
+			Jedis jedis = getJedis(DBindex);
+			long count = jedis.lrem(SafeEncoder.encode(key), c, SafeEncoder.encode(value));
+			returnJedis(jedis);
+			return count;
 		}
 
 		/**
