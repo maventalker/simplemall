@@ -121,14 +121,14 @@ public class APIAccountController {
 	 * @param accountTid
 	 * @return
 	 */
-	@ApiOperation(value = "获取用户地址列表")
+	@ApiOperation(value = "注销")
 	@RequestMapping(value = "acc/logout", method = RequestMethod.POST)
-	public RestAPIResult<Boolean> logout(@PathVariable("accountTid") String accountTid,String accessToken) {
+	public RestAPIResult<Boolean> logout(String accountTid,String accessToken) {
 		//将用户的accessToken写入缓存，并给于失效日期，用户退出后，再以此token请求即为无效请求
 		//解析出失效时间，写入缓存
 		Claims claims = JWTUtils.parseJWT(accessToken);
 		long terminal = claims.getExpiration().getTime();
-		JedisUtil.getInstance().KEYS.expireAt(accessToken, terminal);
+		JedisUtil.expireAt(accessToken, terminal);
 		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
 		return restAPIResult;
 	}
