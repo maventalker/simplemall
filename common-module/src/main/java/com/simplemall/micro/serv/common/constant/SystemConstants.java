@@ -108,4 +108,9 @@ public interface SystemConstants {
 		public static final String UPS = "UPS";
 		public static final String DHL = "DHL";
 	}
+	
+	/**
+	 * redis中存储的需要校验token的uri的前缀
+	 */
+	public static final String URL_NEED_CHECK_KEY = "URL2CHK";
 }
