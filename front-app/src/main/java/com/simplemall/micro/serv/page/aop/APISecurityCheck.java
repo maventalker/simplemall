@@ -16,6 +16,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.simplemall.micro.serv.common.service.JedisUtil;
 import com.simplemall.micro.serv.page.security.JWTUtils;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -56,6 +57,10 @@ public class APISecurityCheck {
 			String currKey = keyIter.next();
 			String value = ((String[]) inputParamMap.get(currKey))[0].toString();
 			if (access_token.equals(currKey)) {
+				//验证此jwt是否已经被注销，由于jwt在有效期均有效，本案例借助redis实现注销机制
+				if(JedisUtil.KEYS.exists(value)){
+					throw new Exception("token已注销，请勿重复使用！");
+				}
 				try {
 					JWTUtils.parseJWT(value);
 				} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException

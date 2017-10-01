@@ -2,8 +2,6 @@ package com.simplemall.micro.serv.page.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +53,9 @@ public class APIProductController {
 	 */
 	@ApiOperation(value = "购买商品，前提是先登陆")
 	@RequestMapping(value = "buy/{prdId}", method = RequestMethod.POST)
-	public RestAPIResult<Boolean> buyProduct(String prdId, HttpSession session) {
+	public RestAPIResult<Boolean> buyProduct(String prdId, String jwt) {
 		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
-		if (!checkAccountOnLine(session)) {
+		if (!checkAccountOnLine(jwt)) {
 			restAPIResult = new RestAPIResult<>("未登陆");
 		}
 		// 登陆后，跳转到结算页面，录入收货地址、支付方式、收货方式等等
@@ -71,7 +69,7 @@ public class APIProductController {
 	 * @return
 	 */
 	// FIXME 安全验证待完善
-	private boolean checkAccountOnLine(HttpSession session) {
+	private boolean checkAccountOnLine(String jwt) {
 		// if (session.getAttribute(WebSecurityConfig.SESSION_KEY) != null)
 		// return true;
 		return false;

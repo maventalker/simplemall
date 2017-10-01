@@ -27,8 +27,6 @@ public class APIPayMentController {
 
 	private final static String ORDER_SERVICE_URL = "http://ORDER-SERVICE:8083";
 
-	private final static String PAY_SERVICE = "PAYMENT-SERVICE";
-
 	@Autowired
 	LoadBalancerClient loadBalancerClient;
 
@@ -38,9 +36,9 @@ public class APIPayMentController {
 	@ApiOperation(value = "支付")
 	@RequestMapping(value = "pay", method = RequestMethod.POST)
 	public RestAPIResult<Boolean> pay(@RequestParam("serialNo") String serialNo,
-			@RequestParam("payType") String payType, @RequestParam("price") BigDecimal price,String accessToken) {
+			@RequestParam("payType") String payType, @RequestParam("price") BigDecimal price, String accessToken) {
 		// this.loadBalancerClient.choose(PAY_SERVICE);
-		// FIXME 调用两个服务时，如何平衡???
+		// 采用微服务的事件驱动机制，不在此直接调用两个服务
 		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
 		MultiValueMap<String, Object> uriVariable = new LinkedMultiValueMap<>();
 		uriVariable.add("serialNo", serialNo);
@@ -55,7 +53,7 @@ public class APIPayMentController {
 			uriNoticeVariable.add("orderStatus", SystemConstants.STATE.SHIPPING);
 			int update = restTemplate.postForObject(ORDER_SERVICE_URL + "/order/state/change", uriNoticeVariable,
 					Integer.class);
-			//FIXME 存在数据一致性问题，后期待优化
+			// FIXME 存在数据一致性问题，后期待优化
 			if ((payResult + update) < 1) {
 				restAPIResult = new RestAPIResult<>("支付失败，请稍后重试！");
 			}

@@ -66,7 +66,9 @@ public class APIAccountController {
 				// 正常情况返回jwt
 				JSONObject subject = new JSONObject(true);
 				subject.put("tid", account.getTid());
-				String accessToken = JWTUtils.createJWT(UUIDUtils.getUUID(), subject.toJSONString(), 12 * 60 * 60 * 1000);
+				// token此处定义12小时有效，据实际应用场景确定有效性，也可以定义刷新机制，保持用户token的使用时限
+				String accessToken = JWTUtils.createJWT(UUIDUtils.getUUID(), subject.toJSONString(),
+						12 * 60 * 60 * 1000);
 				restAPIResult.setRespData(accessToken);
 			} catch (Exception e) {
 				logger.error("生成jwt异常{}", e);
@@ -107,28 +109,31 @@ public class APIAccountController {
 	 */
 	@ApiOperation(value = "获取用户地址列表")
 	@RequestMapping(value = "address/list/{accountTid}", method = RequestMethod.POST)
-	public RestAPIResult<List<AccAddress>> queryAccAddress(@PathVariable("accountTid") String accountTid,String accessToken) {
+	public RestAPIResult<List<AccAddress>> queryAccAddress(@PathVariable("accountTid") String accountTid,
+			String accessToken) {
 		RestAPIResult<List<AccAddress>> apiResult = new RestAPIResult<>();
 		List<AccAddress> liString = accountFeignClient.getList(accountTid);
 		apiResult.setRespData(liString);
 		return apiResult;
 	}
-	
-	
+
 	/**
-	 * query account's address list
+	 * logout
 	 * 
 	 * @param accountTid
+	 * @param accessToken
+	 *            用于注销时写入redis，因jwt有效期内均有效 ，本案例借助redis实现注销机制
 	 * @return
 	 */
 	@ApiOperation(value = "注销")
 	@RequestMapping(value = "acc/logout", method = RequestMethod.POST)
-	public RestAPIResult<Boolean> logout(String accountTid,String accessToken) {
-		//将用户的accessToken写入缓存，并给于失效日期，用户退出后，再以此token请求即为无效请求
-		//解析出失效时间，写入缓存
+	public RestAPIResult<Boolean> logout(String accountTid, String accessToken) {
+		// 将用户的accessToken写入缓存，并给于失效日期，用户退出后，再以此token请求即为无效请求
+		// 解析出失效时间，写入缓存
 		Claims claims = JWTUtils.parseJWT(accessToken);
 		long terminal = claims.getExpiration().getTime();
-		JedisUtil.expireAt(accessToken, terminal);
+		JedisUtil.STRINGS.set(accessToken, accessToken);
+		JedisUtil.KEYS.expireAt(accessToken, terminal);
 		RestAPIResult<Boolean> restAPIResult = new RestAPIResult<>();
 		return restAPIResult;
 	}
