@@ -21,10 +21,10 @@ import com.netflix.loadbalancer.RandomRule;
 @EnableEurekaClient
 @EnableHystrix
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
-public class PageClientApplication {
+public class FrontAPPClientApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PageClientApplication.class, args);
+		SpringApplication.run(FrontAPPClientApplication.class, args);
 	}
 
 	@Bean
