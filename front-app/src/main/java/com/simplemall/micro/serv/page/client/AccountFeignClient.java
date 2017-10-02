@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simplemall.micro.serv.common.bean.account.AccAddress;
+import com.simplemall.micro.serv.common.bean.account.Account;
 
 /**
  * feign与@RequestParam配合使用时，一定要写value值。
@@ -27,7 +28,7 @@ public interface AccountFeignClient {
 	 * @return
 	 */
 	@RequestMapping("/acc/login")
-	public String login(@RequestParam("phone") String phone, @RequestParam("password") String password);
+	public Account login(@RequestParam("phone") String phone, @RequestParam("password") String password);
 
 	/**
 	 * 注册

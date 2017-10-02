@@ -3,6 +3,7 @@ package com.simplemall.account.service;
 import java.util.List;
 
 import com.simplemall.micro.serv.common.bean.account.AccAddress;
+import com.simplemall.micro.serv.common.bean.account.Account;
 
 public interface IAccountService {
 
@@ -11,7 +12,7 @@ public interface IAccountService {
 	 * @param password
 	 * @return
 	 */
-	boolean login(String phone, String password);
+	Account login(String phone, String password);
 	
 	/**
 	 * @param phone

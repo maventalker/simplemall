@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +44,8 @@ public class APIOrderController {
 	 */
 	@ApiOperation(value = "创建订单")
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public RestAPIResult<String> createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr) {
+	public RestAPIResult<String> createOrder(@ApiParam(value = "订单json数据") @RequestParam String orderJsonStr,
+			String accessToken) {
 		this.loadBalancerClient.choose(ORDER_SERVICE);// 随机访问策略
 		Map<String, Object> uriVariables = new HashMap<String, Object>();
 		// get方式，建议采用post方式传输数据
@@ -67,13 +67,13 @@ public class APIOrderController {
 	@ApiOperation(value = "查看订单")
 	@RequestMapping(value = "view", method = RequestMethod.POST)
 	public RestAPIResult<OrderDTO> viewOrder(@RequestParam(required = true) String serialNo,
-			@RequestParam(required = true) String accountId) {
+			@RequestParam(required = true) String accountId, String accessToken) {
 		RestAPIResult<OrderDTO> restAPIResult = new RestAPIResult<>();
 		this.loadBalancerClient.choose(ORDER_SERVICE);
 		MultiValueMap<String, Object> uriVariables = new LinkedMultiValueMap<String, Object>();
 		uriVariables.add("serialNo", serialNo);
 		uriVariables.add("accountId", accountId);
-		// post方式
+		// post方式调用服务
 		OrderDTO entity = restTemplate.postForObject(ORDER_SERVICE_URL + "/order/view", uriVariables, OrderDTO.class);
 		restAPIResult.setRespData(entity);
 		return restAPIResult;
@@ -91,6 +91,7 @@ public class APIOrderController {
 			@RequestParam(required = true) String state) {
 		RestAPIResult<OrderDTO> restAPIResult = new RestAPIResult<>();
 		this.loadBalancerClient.choose(ORDER_SERVICE);
+		// get方式调用后端服务
 		restAPIResult.setRespData(
 				restTemplate.getForObject(ORDER_SERVICE_URL + "/order/state/change?serialNo={serialNo}&state={state}",
 						OrderDTO.class, serialNo, state));
