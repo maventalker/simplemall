@@ -26,15 +26,27 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!--使用@EnableZipkinServer注解方式只需要依赖如下两个包 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>io.zipkin.java</groupId>
 			<artifactId>zipkin-server</artifactId>
+		</dependency> -->
+		
+		<!-- 采用中间件的形式跟踪消息 -->
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+		</dependency>
+		<!-- end  -->
 		<dependency>
 			<groupId>io.zipkin.java</groupId>
 			<artifactId>zipkin-autoconfigure-ui</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
 		<!--保存到数据库需要如下依赖 -->
 		<dependency>
 			<groupId>io.zipkin.java</groupId>
