@@ -5,3 +5,5 @@
 	
 	
 	http://www.cnblogs.com/unqiang/p/5166770.html kafaka setup documents
+##其它组件
+百度的Disconf，360的QConf，taobao的Diamond，自己能过zookeeper实现的配置中心
