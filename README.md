@@ -4,15 +4,15 @@
 每个业务服务采用独立的MYSQL数据库，初期考虑用到如下组件：
 1. 服务注册、发现: eureka
 2. 配置管理:spring config , spring security
-3. 集群容错: hystrix（待实现）
-4. API网关: zuul（待实现）
+3. 集群容错: hystrix
+4. API网关: zuul
 5. 服务负载:feign+ribbon
 6. api文档输出:swagger2
 7. 代码简化:lombok
 8. 消息队列:rabbitmq
 9. 分布式锁: redis （待实现）
 10. 链路跟踪:spring cloud sletuh ->zipkin
-11. 安全认证:oauth2/JWT(待实现)
+11. 安全认证:oauth2/JWT(通过JWT轻量级的实现)
 12. 服务监控:spring-boot-admin
 
 
