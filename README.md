@@ -42,8 +42,14 @@
 # 相关测试
 	1、启动基础eureka/config两个服务后，直接启动front-app服务，通过swagger测试商品列表或详情功能来测试hystrix的功能
 	1.1、启动hystrix-dashboard服务，输入监控地址http://localhost:8088/hystrix.stream可以查看监控视图
+	2、输入http://localhost:9005/account-service/acc/login?phone=123123&password=123123查看返回结果
 
 ## Release Version
+### v2.11
+
+> Release Date : 2017-10-02
+###### 1，针对api增加jwt安全防护【过滤需要验权的URI，校验jwt】
+###### 2，完善zuul过滤，完成基本代理路由、安全验证功能【但未引入到front-app中，下版中完善】
 
 ### v2.1
 

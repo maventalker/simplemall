@@ -7,6 +7,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
  * API Gateway
+ * TODO 与zuul实现同样的功能还有kong，官网地址：https://getkong.org
  * 
  * @author guooo
  *
