@@ -30,7 +30,7 @@
 | payment-service    |    8082    |  支付服务，支付记录  |
 | order-service        |    8083    |  订单服务，提供订单创建、详情、状态变更  |
 | msg-service        |    8084    |  消息处理服务  |
-| front-app        |    8088    |  前端服务，结合swagger2提供API管理  |
+| front-app        |    8088    |  前端服务，结合swagger2提供API管理(有小问题，swagger页面无法点击单个接口，可通过展开功能打开，待解决)  |
 
 
 # 快速上手
