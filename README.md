@@ -36,7 +36,7 @@
 # 快速上手
 - 1、先启动admin-server,eureka-server,conf-server三个基础服务
 - 2、再依次启动payment/order/product/account基础业务服务
-- 3、最后启动front-app服务，打开浏览器，输入http://localhost:8088/swagger-ui.html ，根据流程API依次可使用功能
+- 3、最后启动front-app服务，打开浏览器，输入http://localhost:8088/swagger-ui.html ，根据流程API依次可使用功能[swagger主界面存在bug，不能选择某个api展开收缩，可通过全部展开/收缩的形式使用]
 - 4、后续有时间再提供页面，基于VUE2+BOOTSTRAP，将流程串起来
 
 # 相关测试
