@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.simplemall.micro.serv</groupId>
+    <artifactId>simplemall-proj</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.simplemall.micro.serv.base</groupId>
+  <artifactId>base-serv</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>eureka-server</module>
+  	<module>conf-server</module>
+  	<module>zuul-server</module>
+  	<module>sleuth-server</module>
+  	<module>admin-server</module>
+  	<module>hystrix-dashboard</module>
+  	<module>turbine-server</module>
+  </modules>
+</project>
