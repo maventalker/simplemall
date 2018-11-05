@@ -71,4 +71,7 @@
 
 # 关注公众号，获取更多内容
 ![image](https://github.com/backkoms/backkoms.github.io/blob/master/qrcode_for_gh_28fb95c9c24c_258.jpg?raw=true)
+
 个人主页地址：[https://backkoms.github.io](https://backkoms.github.io)
+微信号：Dqango
+
