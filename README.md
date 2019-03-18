@@ -1,3 +1,7 @@
+## Stargazers over time
+
+[![Stargazers over time](https://starcharts.herokuapp.com/backkoms/simplemall.svg)](https://starcharts.herokuapp.com/backkoms/simplemall)
+      
 # QuickStart
 基于SpringCloud体系实现，简单购物流程实现，满足基本功能：注册、登录、商品列表展示、商品详情展示、订单创建、详情查看、订单支付、库存更新等等。
 
