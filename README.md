@@ -49,31 +49,6 @@
 	1.1、启动hystrix-dashboard服务，输入监控地址http://localhost:8088/hystrix.stream可以查看监控视图
 	2、输入http://localhost:9005/account-service/acc/login?phone=123123&password=123123查看返回结果
 
-## Release Version
-### v2.11
-
-> Release Date : 2017-10-02
-- 1，针对api增加jwt安全防护【过滤需要验权的URI，校验jwt】
-- 2，完善zuul过滤，完成基本代理路由、安全验证功能【但未引入到front-app中，下版中完善】
-
-### v2.1
-
-> Release Date : 2017-08-29
-- 1、引入swagger2，完成API接口文档管理完成整体业务数据流程流转
-- 2、通过API接口完成整体业务数据
-- 3、基于Spring-cloud-config引入配置中心，结合security加强安全配置，同时引入bus-amqp(rabbitmq)高效更新配置内容[配置中心数据结合sc-cloud-repo工程使用]
-- 4、引入feign，满足客户端调用服务端的服务
-- 5、引入ribbon，可以满足客户端的负载均衡调用后端服务
-
-### v1.0
-
-> Release Date : 2017-08-17
-- 1、完成基本服务及业务子模块服务的搭建 ，业务子模块可正常运行
-- 2、完成SpringBootAdmin业务模块的运行监控，及Eureka服务运行，满足各业务基础服务的注册、发现功能
-- 3、可通过Front-app端，借助Feign组件发起login/signup等功能的 简单测试运行。
-- 下一版本，将基于此版本之上，继续完善完整的购物实现，包括简单的页面、api管理/调用等等。
-
-
 # 关注公众号，获取更多内容
 ![image](https://github.com/backkoms/backkoms.github.io/blob/master/qrcode_for_gh_28fb95c9c24c_258.jpg?raw=true)
 
@@ -83,4 +58,5 @@
 
 #基于SpringBoot+Dubbo微服务开发实战基础框架
 github：[https://github.com/backkoms/web-service-demo](https://github.com/backkoms/web-service-demo)
+
 github：[https://github.com/backkoms/web-api-demo](https://github.com/backkoms/web-api-demo)
