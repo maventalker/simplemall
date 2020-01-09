@@ -57,6 +57,10 @@
 微信号：Dqango
 
 #基于SpringBoot+Dubbo微服务开发实战基础框架
+
 github：[https://github.com/backkoms/web-service-demo](https://github.com/backkoms/web-service-demo)
 
 github：[https://github.com/backkoms/web-api-demo](https://github.com/backkoms/web-api-demo)
+
+#手把手微服务实战教程
+[https://xiaozhuanlan.com/msa-practice](https://xiaozhuanlan.com/msa-practice)
