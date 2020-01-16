@@ -66,11 +66,6 @@ github：[https://github.com/backkoms/web-api-demo](https://github.com/backkoms/
 ![image](WechatIMG304.jpeg)
 
 
-
-### 个人公众号，提升个人认知、终生学习
-
-![image](https://github.com/backkoms/backkoms.github.io/blob/master/qrcode_for_gh_28fb95c9c24c_258.jpg?raw=true)
-
 ### 我的知识星球，内容：个人心得体会分享（阅读、写作、职业规划、职业困惑、个人成长、技术提升）、问题提问
 ![](https://imgkr.cn-bj.ufileos.com/75ab2d42-80b1-4164-9ac5-c23de5f522e6.png)
 
