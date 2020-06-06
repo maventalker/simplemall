@@ -54,16 +54,12 @@
 
 个人主页：[https://backkoms.github.io](https://backkoms.github.io)
 
-微信号：Dqango
 
 # 基于SpringBoot+Dubbo微服务开发实战基础框架
 
 github：[https://github.com/backkoms/web-service-demo](https://github.com/backkoms/web-service-demo)
 
 github：[https://github.com/backkoms/web-api-demo](https://github.com/backkoms/web-api-demo)
-
-打赏码
-![image](WechatIMG304.jpeg)
 
 
 ### 我的知识星球，内容：个人心得体会分享（阅读、写作、职业规划、职业困惑、个人成长、技术提升）、问题提问
@@ -72,6 +68,6 @@ github：[https://github.com/backkoms/web-api-demo](https://github.com/backkoms/
 ### 个人微信，欢迎骚扰
 ![](https://imgkr.cn-bj.ufileos.com/e37c25c2-d2a4-4174-953b-07adbd0f9b56.jpeg)
 
-### 微服务专栏（SpringCloud、SpringCloudAlibaba、Apache Dubbo）
-[专栏地址：https://xiaozhuanlan.com/msa-practice](https://xiaozhuanlan.com/msa-practice)
+### 微服务开发实战专栏（SpringCloud、SpringCloudAlibaba、Apache Dubbo）
+[基于商场停车收费场景的微服务开发实战专栏地址：https://xiaozhuanlan.com/msa-practice](https://xiaozhuanlan.com/msa-practice)
 ![](https://imgkr.cn-bj.ufileos.com/227bc922-220f-4f68-b114-132bcbd53436.jpg)
